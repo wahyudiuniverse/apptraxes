@@ -451,7 +451,7 @@ WHERE employee_id = '99'");
 		// get employees att reports
 	public function filter_report_emp_att($project_id,$sub_id,$area,$start_date,$end_date) {
 
-		if($area=='0'){
+		if($sub_id=='0'){
 
 		return $query = $this->db->query("
 
@@ -460,31 +460,9 @@ SELECT cio.employee_id, userm.fullname, userm.company_id, userm.company_name, us
 FROM `tx_cio` cio
 LEFT JOIN xin_user_mobile userm ON userm.employee_id = cio.employee_id
 LEFT JOIN xin_customer cust ON cust.customer_id = cio.customer_id
-WHERE cio.project_id = '$project_id'
-AND DATE_FORMAT(cio.date_cio, '%Y-%m-%d') BETWEEN '2023-11-22' AND '2023-11-24'
+WHERE userm.project_id = '$project_id'
+AND DATE_FORMAT(cio.date_cio, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
 
-			-- SELECT attdin.employee_id, emp.first_name AS fullname, attdin.project_id, proj.title, emp.sub_project_id, projs.sub_project_name, emp.penempatan, attdin.customer_id, attdin.date_phone, 
-			-- attdin.time_in, cout.time_out, TIMEDIFF(cout.time_out, attdin.time_in) AS timestay,attdin.latitude, attdin.longitude, attdin.foto_in, cout.foto_out
-			-- 			FROM (
-			-- 				SELECT employee_id, project_id, customer_id, DATE_FORMAT(datetime_phone, '%Y-%m-%d') AS date_phone, c_io, DATE_FORMAT(datetime_phone, '%H:%i:%s') AS time_in, latitude, longitude, foto AS foto_in
-			-- 				FROM xin_trx_cio
-			-- 				WHERE c_io = 1
-			--                 AND project_id = '$project_id'
-			--                 -- AND DATE_FORMAT(datetime_phone, '%Y-%m-%d') ='$start_date'
-			--                 AND DATE_FORMAT(datetime_phone, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
-			-- 				ORDER BY createdon DESC) attdin
-			-- 			LEFT JOIN (
-			-- 				SELECT employee_id, project_id, customer_id, DATE_FORMAT(datetime_phone, '%Y-%m-%d') AS date_phone, c_io, DATE_FORMAT(datetime_phone, '%H:%i:%s') AS time_out, latitude, longitude,foto AS foto_out
-			-- 				FROM xin_trx_cio
-			-- 				WHERE c_io = 2
-			--                 AND project_id = '$project_id'
-			--                 -- AND DATE_FORMAT(datetime_phone, '%Y-%m-%d') = '$start_date'
-			--                 AND DATE_FORMAT(datetime_phone, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
-			-- 			) cout ON cout.employee_id = attdin.employee_id AND cout.customer_id = attdin.customer_id AND cout.date_phone = attdin.date_phone
-			-- 			LEFT JOIN xin_employees emp ON emp.employee_id = attdin.employee_id
-			-- 			LEFT JOIN xin_projects proj ON proj.project_id = attdin.project_id
-			-- 			LEFT JOIN xin_projects_sub projs ON projs.secid = emp.sub_project_id
-			-- WHERE emp.sub_project_id = '$sub_id'
 		
 			");
 
@@ -499,45 +477,14 @@ FROM `tx_cio` cio
 LEFT JOIN xin_user_mobile userm ON userm.employee_id = cio.employee_id
 LEFT JOIN xin_customer cust ON cust.customer_id = cio.customer_id
 WHERE cio.project_id = '$project_id'
+AND REPLACE(userm.project_sub, ' ', '')  = '$sub_id'
 AND DATE_FORMAT(cio.date_cio, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
 
 
-
-			-- SELECT attdin.employee_id, emp.first_name AS fullname, attdin.project_id, proj.title, emp.sub_project_id, projs.sub_project_name, emp.penempatan, attdin.customer_id, attdin.date_phone, 
-			-- attdin.time_in, cout.time_out, TIMEDIFF(cout.time_out, attdin.time_in) AS timestay,attdin.latitude, attdin.longitude, attdin.foto_in, cout.foto_out
-			-- 			FROM (
-			-- 				SELECT employee_id, project_id, customer_id, DATE_FORMAT(datetime_phone, '%Y-%m-%d') AS date_phone, c_io, DATE_FORMAT(datetime_phone, '%H:%i:%s') AS time_in, latitude, longitude, foto AS foto_in
-			-- 				FROM xin_trx_cio
-			-- 				WHERE c_io = 1
-			--                 AND project_id = '$project_id'
-			--                 -- AND DATE_FORMAT(datetime_phone, '%Y-%m-%d')='$start_date'
-			--                 AND DATE_FORMAT(datetime_phone, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
-			-- 				ORDER BY createdon DESC) attdin
-			-- 			LEFT JOIN (
-			-- 				SELECT employee_id, project_id, customer_id, DATE_FORMAT(datetime_phone, '%Y-%m-%d') AS date_phone, c_io, DATE_FORMAT(datetime_phone, '%H:%i:%s') AS time_out, latitude, longitude,foto AS foto_out
-			-- 				FROM xin_trx_cio
-			-- 				WHERE c_io = 2
-			--                 AND project_id = '$project_id'
-			--                 -- AND DATE_FORMAT(datetime_phone, '%Y-%m-%d') = '$start_date'
-			--                 AND DATE_FORMAT(datetime_phone, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
-			-- 			) cout ON cout.employee_id = attdin.employee_id AND cout.customer_id = attdin.customer_id AND cout.date_phone = attdin.date_phone
-			-- 			LEFT JOIN xin_employees emp ON emp.employee_id = attdin.employee_id
-			-- 			LEFT JOIN xin_projects proj ON proj.project_id = attdin.project_id
-			-- 			LEFT JOIN xin_projects_sub projs ON projs.secid = emp.sub_project_id
-			-- WHERE emp.sub_project_id = '$sub_id'
-			-- AND emp.penempatan = '$area'
-
 			");
 
-
 		}
-
-
-
-
-
-
-			
+	
 	}
 
 

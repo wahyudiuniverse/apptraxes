@@ -1447,13 +1447,14 @@ class Reports extends MY_Controller
 		$area = $this->uri->segment(6);
 		$start_date = $this->uri->segment(7);
 		$end_date = $this->uri->segment(8);
-		$finalarea = str_replace("%20"," ",$area);
+		// $finalarea = str_replace("%20"," ",$area);
+		$finalsub_pro = $sub_id;
 
 		if($project_id==0){
 			// $employee = $this->Reports_model->filter_report_emp_att($project_id,$sub_id,$area,$start_date,$end_date);
 			$employee = $this->Reports_model->filter_report_emp_att_null();
 		} else {
-			$employee = $this->Reports_model->filter_report_emp_att($project_id,$sub_id,$finalarea,$start_date,$end_date);
+			$employee = $this->Reports_model->filter_report_emp_att($project_id,$sub_id,'0',$start_date,$end_date);
 		}
 
 			// $employee = $this->Reports_model->filter_report_emp_att_null();

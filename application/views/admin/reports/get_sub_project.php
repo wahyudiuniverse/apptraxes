@@ -5,7 +5,7 @@
    <select name="sub_project_id" id="aj_subproject" class="form-control" data-plugin="select_hrm" data-placeholder="<?php echo $this->lang->line('xin_choose_an_employee');?>">
     <option value="0">ALL</option>
     <?php foreach($result as $sproj) {?>
-    <option value="<?php echo $sproj->sub_project_name;?>"> <?php echo $sproj->sub_project_name;?></option>
+    <option value="<?php echo str_replace(" ", "", $sproj->sub_project_name);?>"> <?php echo $sproj->sub_project_name;?></option>
     <?php } ?>
   </select>
 </div>
