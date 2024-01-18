@@ -113,7 +113,7 @@ endif;
               </div>
           </div>
             <!-- / Logo -->
-            <h4 class="text-center text-lighter font-weight-normal mt-5 mb-0"><?php echo $this->lang->line('xin_hrpremium_login_to_your_account');?></h4>
+            <h4 class="text-center text-lighter font-weight-normal mt-5 mb-0">Login to Your TRAXES Account</h4>
             
             <!-- Form -->
             <?php

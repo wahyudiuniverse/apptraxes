@@ -97,7 +97,7 @@ endif;
           </div>
           </div>
         <!-- / Logo -->
-        <h5 class="text-center text-muted font-weight-normal mb-4"><?php echo $this->lang->line('xin_hrpremium_login_to_your_account');?></h5>
+        <h5 class="text-center text-muted font-weight-normal mb-4">Login to Your TRAXES Account</h5>
         <!-- Form -->
         <?php $attributes = array('class' => 'form-hrpremium', 'name' => 'hrm-form', 'id' => 'hrm-form', 'data-redirect' => 'dashboard',
 					'data-form-table' => 'login', 'data-is-redirect' => '1', 'autocomplete' => 'off');?>

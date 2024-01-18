@@ -107,7 +107,7 @@ endif;
               <?php endif;?>
             <div class="authfy-panel panel-login text-center active">
               <div class="authfy-heading">
-                <h3 class="auth-title"><?php echo $this->lang->line('xin_hrpremium_login_to_your_account');?></h3>
+                <h3 class="auth-title">Login to Your TRAXES Account</h3>
               </div>
               <div class="row">
                 <div class="col-xs-12 col-sm-12">
