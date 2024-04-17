@@ -489,6 +489,63 @@ AND DATE_FORMAT(cio.date_cio, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
 
 
 		// get employees att reports
+	public function filter_report_emp_sellout_null() {
+
+
+		return $query = $this->db->query("SELECT ordr.secid, ordr.employee_id, userm.fullname, userm.company_id, userm.company_name, userm.project_id, userm.project_name, userm.project_sub, userm.jabatan, userm.penempatan, ordr.customer_id, cust.customer_name, ordr.material_id, skum.kode_sku, skum.nama_material, skum.brand, skum.variant, skum.uom, skum.price, ordr.order_date, ordr.qty, ordr.price, ordr.total
+FROM `xin_mobile_order` ordr
+LEFT JOIN xin_sku_material skum ON skum.kode_sku = ordr.material_id
+LEFT JOIN xin_user_mobile userm ON userm.employee_id = ordr.employee_id
+LEFT JOIN xin_customer cust ON cust.customer_id = ordr.customer_id LIMIT 0");
+
+
+
+
+
+	}
+
+
+		// get employees att reports
+	public function filter_report_emp_sellout($project_id, $sub_id, $area, $start_date, $end_date) {
+
+		if($sub_id=='0'){
+
+		return $query = $this->db->query("
+
+SELECT ordr.secid, ordr.employee_id, userm.fullname, userm.company_id, userm.company_name, userm.project_id, userm.project_name, userm.project_sub, userm.jabatan, userm.penempatan, ordr.customer_id, cust.customer_name, ordr.material_id, skum.kode_sku, skum.nama_material, skum.brand, skum.variant, skum.uom, skum.price, ordr.order_date, skum.poin, ordr.qty, ordr.price as sell_price, ordr.total
+FROM `xin_mobile_order` ordr
+LEFT JOIN xin_sku_material skum ON skum.kode_sku = ordr.material_id
+LEFT JOIN xin_user_mobile userm ON userm.employee_id = ordr.employee_id
+LEFT JOIN xin_customer cust ON cust.customer_id = ordr.customer_id
+WHERE userm.project_id = '$project_id'
+AND DATE_FORMAT(ordr.order_date, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
+
+
+		
+			");
+
+
+		} else {
+
+		return $query = $this->db->query("
+
+SELECT ordr.secid, ordr.employee_id, userm.fullname, userm.company_id, userm.company_name, userm.project_id, userm.project_name, userm.project_sub, userm.jabatan, userm.penempatan, ordr.customer_id, cust.customer_name, ordr.material_id, skum.kode_sku, skum.nama_material, skum.brand, skum.variant, skum.uom, skum.price, ordr.order_date, skum.poin, ordr.qty, ordr.price as sell_price, ordr.total
+FROM `xin_mobile_order` ordr
+LEFT JOIN xin_sku_material skum ON skum.kode_sku = ordr.material_id
+LEFT JOIN xin_user_mobile userm ON userm.employee_id = ordr.employee_id
+LEFT JOIN xin_customer cust ON cust.customer_id = ordr.customer_id
+WHERE userm.project_id = '$project_id'
+AND REPLACE(userm.project_sub, ' ', '') = '$sub_id'
+AND DATE_FORMAT(ordr.order_date, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
+
+			");
+
+		}
+	
+	}
+
+
+		// get employees att reports
 	public function report_order() {
 
 		return $query = $this->db->query("

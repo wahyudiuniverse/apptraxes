@@ -1572,6 +1572,119 @@ class Reports extends MY_Controller
     }
 
 	
+
+	// daily attendance list > timesheet
+    public function report_sellout()
+    {
+
+		$data['title'] = $this->Xin_model->site_title();
+		$session = $this->session->userdata('username');
+		if(!empty($session)){ 
+			$this->load->view("admin/reports/employee_sellout", $data);
+		} else {
+			redirect('admin/');
+		}
+		// Datatables Variables
+		$draw = intval($this->input->get("draw"));
+		$start = intval($this->input->get("start"));
+		$length = intval($this->input->get("length"));
+
+		
+		// $company_id = $this->uri->segment(4);
+		$project_id = $this->uri->segment(4);
+		$sub_id = $this->uri->segment(5);
+		$area = $this->uri->segment(6);
+		$start_date = $this->uri->segment(7);
+		$end_date = $this->uri->segment(8);
+		// $finalarea = str_replace("%20"," ",$area);
+		$finalsub_pro = $sub_id;
+
+		if($project_id==0){
+			// $employee = $this->Reports_model->filter_report_emp_att($project_id,$sub_id,$area,$start_date,$end_date);
+			$orders = $this->Reports_model->filter_report_emp_sellout_null();
+		} else {
+			$orders = $this->Reports_model->filter_report_emp_sellout($project_id,$sub_id,'0',$start_date,$end_date);
+		}
+
+			// $employee = $this->Reports_model->filter_report_emp_att_null();
+		// $employee = $this->Employees_model->get_employees();
+
+		$data = array();
+
+		// for($i=0 ; $i < count($attend); $i++) {
+ 		foreach($orders->result() as $r) {
+
+
+			// $cust = $this->Customers_model->read_single_customer($r->customer_id);
+			// if(!is_null($cust)){
+			// 	$nama_toko 	= $cust[0]->customer_name;
+			// 	$pemilik 	= $cust[0]->owner_name;
+			// 	$no_kontak 	= $cust[0]->no_contact;
+			// } else {
+			// 	$nama_toko 	= '--';
+			// 	$pemilik 	= '--';
+			// 	$no_kontak 	= '--';	
+			// }
+
+			// if(!is_null($r->foto_in)){
+			// 	$fotovIn = 'https://api.traxes.id/'.$r->foto_in;
+			// } else {
+			// 	$fotovIn = '-';
+			// }
+
+			// if(!is_null($r->foto_out)){
+			// 	$fotovOut = 'https://api.traxes.id/'.$r->foto_out;
+			// } else {
+			// 	$fotovOut = '-';
+			// }
+
+
+			// if($r->status_emp==1) {
+			// 	$status_att = 'Visit';
+			// } else if($r->status_emp == 2) {
+			// 	$status_att = 'Izin';
+			// } else if($r->status_emp == 3) {
+			// 	$status_att = 'Sakit';
+			// } else if($r->status_emp == 4) {
+			// 	$status_att = 'Cuti';
+			// } else if($r->status_emp == 5) {
+			// 	$status_att = 'Off';
+			// } else {
+			// 	$status_att = '-';
+			// }
+
+			$data[] = array (
+				 $r->employee_id,
+				 $r->fullname,
+				 $r->project_name,
+				 $r->project_sub,
+				 $r->jabatan,
+				 $r->penempatan,
+				 $r->customer_id,
+				 $r->customer_name,
+				 $r->kode_sku,
+				 $r->nama_material,
+				 $r->brand,
+				 $r->poin,
+				 $r->qty,
+				 $r->sell_price,
+				 $r->total,
+				 $r->order_date
+			);
+		}
+
+
+	  $output = array(
+		   "draw" => $draw,
+			 "recordsTotal" => $orders->num_rows(),
+			 "recordsFiltered" => $orders->num_rows(),
+			 "data" => $data
+		);
+	  echo json_encode($output);
+	  exit();
+
+    }
+
 	// daily attendance list > timesheet
     public function empdtwise_order()
     {

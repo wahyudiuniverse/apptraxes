@@ -29,7 +29,8 @@ $hrpremium_url .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCR
 $config['base_url'] = $hrpremium_url;
 
 
-//$config['base_url'] = 'http://localhost/hrpremium/';
+
+// $config['base_url'] = 'http://localhost/apptraxes/';
 // change this url to your desired url.
 //NOTE: Put url like http://hr.yourdomain.com/ or http://yourdomain.com/hr/
 

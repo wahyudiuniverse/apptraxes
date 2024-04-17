@@ -130,177 +130,87 @@ $new_date = date('d-M-Y', $strtotime);
     $eslip_release = $this->Employees_model->read_eslip_by_nip($session['employee_id']);
 ?>
 
+
 <div class="row mt-6">
   <div class="d-flex col-xl-12 align-items-stretch">
     <!-- Stats + Links -->
     <div class="card d-flex w-100 mb-4">
       <div class="row no-gutters row-bordered h-100">
 
+
 <!-- KTP -->
-        <?php
-        if($doc_ktp==1){
-        ?>
 
         <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-success">
-          <a href="#" class="card-body media align-items-center text-body">
+          <a href="<?php echo site_url();?>admin/reports/employee_attendance/" class="card-body media align-items-center text-body">
             <i class="lnr lnr-checkmark-circle display-4 d-block text-primary"></i>
             <span class="media-body d-block ml-3">
-              <span class="text-big font-weight-bolder">FOTO KTP</span><br>
-              <small class="text-muted">Sudah diunggah</small>
+              <span class="text-big font-weight-bolder">CHECK IN-OUT</span><br>
+              <small class="text-muted">Sudah Ada</small>
             </span>
           </a>
         </div>
 
-        <?php
-        } else {
-        ?>
-
-        <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-danger">
-          <a href="#" class="card-body media align-items-center text-body">
-            <i class="lnr lnr-warning display-4 d-block text-danger"></i>
-            <span class="media-body d-block ml-3">
-              <span class="text-big font-weight-bolder">FOTO KTP</span><br>
-              <small class="text-muted">Belum diunggah</small>
-            </span>
-          </a>
-        </div>
-
-        <?php
-        }
-        ?>
 
 <!-- KK -->
-        <?php
-        if($doc_kk==1){
-        ?>
+
+
+        <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-success">
+          <a href="<?php echo site_url();?>admin/reports/employee_sellout/" class="card-body media align-items-center text-body">
+            <i class="lnr lnr-checkmark-circle display-4 d-block text-primary"></i>
+            <span class="media-body d-block ml-3">
+              <span class="text-big font-weight-bolder">SELL OUT (ORDER)</span><br>
+              <small class="text-muted">Sudah Ada</small>
+            </span>
+          </a>
+        </div>
+
 
         <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-success">
           <a href="#" class="card-body media align-items-center text-body">
             <i class="lnr lnr-checkmark-circle display-4 d-block text-primary"></i>
             <span class="media-body d-block ml-3">
-              <span class="text-big font-weight-bolder">FOTO KK</span><br>
-              <small class="text-muted">Sudah diunggah</small>
+              <span class="text-big font-weight-bolder">SELL IN (STOCK)</span><br>
+              <small class="text-muted">Sedang Perbaikan</small>
             </span>
           </a>
         </div>
 
-        <?php
-        } else {
-        ?>
 
-        <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-danger">
+        <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-success">
           <a href="#" class="card-body media align-items-center text-body">
-            <i class="lnr lnr-warning display-4 d-block text-danger"></i>
+            <i class="lnr lnr-checkmark-circle display-4 d-block text-primary"></i>
             <span class="media-body d-block ml-3">
-              <span class="text-big font-weight-bolder">FOTO KK</span><br>
-              <small class="text-muted">Belum diunggah</small>
+              <span class="text-big font-weight-bolder">DISPLAY</span><br>
+              <small class="text-muted">Sedang Perbaikan</small>
             </span>
           </a>
         </div>
 
-        <?php
-        }
-        ?>
+        <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-success">
+          <a href="#" class="card-body media align-items-center text-body">
+            <i class="lnr lnr-checkmark-circle display-4 d-block text-primary"></i>
+            <span class="media-body d-block ml-3">
+              <span class="text-big font-weight-bolder">COMPETITOR PRODUCT</span><br>
+              <small class="text-muted">Sedang Perbaikan</small>
+            </span>
+          </a>
+        </div>
+
+        <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-success">
+          <a href="#" class="card-body media align-items-center text-body">
+            <i class="lnr lnr-checkmark-circle display-4 d-block text-primary"></i>
+            <span class="media-body d-block ml-3">
+              <span class="text-big font-weight-bolder">PRICE TAG</span><br>
+              <small class="text-muted">Sedang Perbaikan</small>
+            </span>
+          </a>
+        </div>
 
 <!-- SKCK -->
-        <?php
-        if($doc_skck==1){
-        ?>
-
-        <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-success">
-          <a href="#" class="card-body media align-items-center text-body">
-            <i class="lnr lnr-checkmark-circle display-4 d-block text-primary"></i>
-            <span class="media-body d-block ml-3">
-              <span class="text-big font-weight-bolder">FOTO SKCK</span><br>
-              <small class="text-muted">Sudah diunggah</small>
-            </span>
-          </a>
-        </div>
-
-        <?php
-        } else {
-        ?>
-
-        <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-danger">
-          <a href="#" class="card-body media align-items-center text-body">
-            <i class="lnr lnr-warning display-4 d-block text-danger"></i>
-            <span class="media-body d-block ml-3">
-              <span class="text-big font-weight-bolder">FOTO SKCK</span><br>
-              <small class="text-muted">Belum diunggah</small>
-            </span>
-          </a>
-        </div>
-
-        <?php
-        }
-        ?>
 
 <!-- IJAZAH -->
 
-        <?php
-        if($doc_ijazah==1){
-        ?>
-
-        <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-success">
-          <a href="#" class="card-body media align-items-center text-body">
-            <i class="lnr lnr-checkmark-circle display-4 d-block text-primary"></i>
-            <span class="media-body d-block ml-3">
-              <span class="text-big font-weight-bolder">IJAZAH</span><br>
-              <small class="text-muted">Sudah diunggah</small>
-            </span>
-          </a>
-        </div>
-
-        <?php
-        } else {
-        ?>
-
-        <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-danger">
-          <a href="#" class="card-body media align-items-center text-body">
-            <i class="lnr lnr-warning display-4 d-block text-danger"></i>
-            <span class="media-body d-block ml-3">
-              <span class="text-big font-weight-bolder">IJAZAH</span><br>
-              <small class="text-muted">Belum diunggah</small>
-            </span>
-          </a>
-        </div>
-
-        <?php
-        }
-        ?>
-
 <!-- DOK CV -->
-        <?php
-        if($doc_cv==1){
-        ?>
-
-        <div class="d-flex col-sm-8 col-md-4 col-lg-2 align-items-center list-group-item-success">
-          <a href="#" class="card-body media align-items-center text-body">
-            <i class="lnr lnr-checkmark-circle display-4 d-block text-primary"></i>
-            <span class="media-body d-block ml-3">
-              <span class="text-big font-weight-bolder">RIWAYAT HIDUP (CV)</span><br>
-              <small class="text-muted">Sudah diunggah</small>
-            </span>
-          </a>
-        </div>
-
-        <?php
-        } else {
-        ?>
-
-        <div class="d-flex col-sm-8 col-md-4 col-lg-3 align-items-center list-group-item-danger">
-          <a href="#" class="card-body media align-items-center text-body">
-            <i class="lnr lnr-warning display-4 d-block text-danger"></i>
-            <span class="media-body d-block ml-3">
-              <span class="text-big font-weight-bolder">RIWAYAT HIDUP (CV)</span><br>
-              <small class="text-muted">Belum diunggah</small>
-            </span>
-          </a>
-        </div>
-
-        <?php
-        }
-        ?>
 
 
       </div>
@@ -311,174 +221,21 @@ $new_date = date('d-M-Y', $strtotime);
 
 <div class="row mt-3">
 
+<div class="row mt-3">
 
-<!-- ESLIP STATUS -->
-<?php
-  if(!is_null($skk_release)){
-    foreach($skk_release->result() as $r) {
-?>
 
-  <div class="col-sm-6 col-xl-4">
-    <div class="card mb-5">
-      <a href="<?php echo site_url().'admin/skk/view/'.$r->secid.'/'.$r->nip;?>" target="_blank">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <div class="ion ion-ios-paper display-4 text-info"></div>
-          <div class="ml-4">
-            <div class="text-muted normal"><?php echo $this->lang->line('xin_paklaring'). ' '.'Periode:';?></div>
-            <p style="font-size: 18px;"><?php echo $r->nomor_dokumen;?></p>
-          </div>
-        </div>
-      </div>
-      </a>
-    </div>
-  </div>
 
-<?php
-    }
-
-  } else {
-?>
-  <div class="col-sm-6 col-xl-4">
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <div class="ion ion-ios-paper display-4 text-info"></div>
-          <div class="ml-4">
-            <div class="text-muted small"><?php echo $this->lang->line('xin_paklaring');?></div>
-            <div class="text-large">Tidak Ditemukan..!</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-<?php
-  }
-?>
 
 </div>
 
 <div class="row mt-3">
 
-<!-- PKWT STATUS -->
-  <?php 
-  if($pkwtid=='0'){
-  ?>
-
-  <div class="col-sm-6 col-xl-4">
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <div class="ion ion-ios-paper display-4 text-info"></div>
-          <div class="ml-4">
-            <div class="text-muted small"><?php echo $this->lang->line('xin_pkwt');?></div>
-            <div class="text-large">Belum Tersedia..!</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <?php
-  } else {
-  ?>
-
-  <div class="col-sm-6 col-xl-4">
-  <a href="<?php echo site_url('admin/'.$sub_project.'/view/'.$uniqueid);?>" target="_blank">
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <div class="ion ion-ios-paper display-4 text-info"></div>
-          <div class="ml-4">
-            <div class="text-muted small"><?php echo $this->lang->line('xin_pkwt');?></div>
-            <div class="text-large"><?php echo $this->lang->line('xin_download');?>
-          <i class="fa fa-check-circle" aria-hidden="true" style="color:#03b403"></i></div>
-            <div class="text-muted small"><?php echo $nomorsurat;?></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    </a>
-  </div>
-
-  <?php
-  }
-  ?>
 </div>
 <div class="row mt-3">
 
 
 <!-- ESLIP STATUS -->
-<?php
-  if(!is_null($eslip_release)){
-    foreach($eslip_release->result() as $r) {
 
-    if($doc_ktp==0 || $doc_kk==0 || $doc_ijazah==0 || $doc_cv==0) {
-?>
-
-
-  <div class="col-sm-6 col-xl-4">
-    <div class="card mb-4">
-      <a href="#">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <div class="ion ion-ios-paper display-4 text-info"></div>
-          <div class="ml-4">
-            <div class="text-muted normal"><?php echo $this->lang->line('xin_eslip'). ' '.'Periode:';?>  <p style="color: #F00;">(Selesaikan Unggah Dokumen Secara Lengkap)</p></div>
-            <p style="font-size: 18px;"><?php echo $r->periode;?></p>
-          </div>
-        </div>
-      </div>
-      </a>
-    </div>
-  </div>
-
-<?php
-    } else {
-?>
-
-  <div class="col-sm-6 col-xl-4">
-    <div class="card mb-4">
-      <a href="<?php echo site_url().'admin/importexceleslip/view/'.$r->nip.'/'.$r->secid; ?>" target="_blank">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <div class="ion ion-ios-paper display-4 text-info"></div>
-          <div class="ml-4">
-            <div class="text-muted normal"><?php echo $this->lang->line('xin_eslip'). ' '.'Periode:';?></div>
-            <p style="font-size: 18px;"><?php echo $r->periode;?></p>
-          </div>
-        </div>
-      </div>
-      </a>
-    </div>
-  </div>
-<?php
-    }
-
-?>
-
-
-<?php
-    }
-
-  } else {
-?>
-  <div class="col-sm-6 col-xl-4">
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <div class="ion ion-ios-paper display-4 text-info"></div>
-          <div class="ml-4">
-            <div class="text-muted small"><?php echo $this->lang->line('xin_eslip');?></div>
-            <div class="text-large">Tidak Ditemukan..!</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-<?php
-  }
-?>
 </div>
 
 
@@ -486,116 +243,10 @@ $new_date = date('d-M-Y', $strtotime);
 
 
 <!-- BPJS KS STATUS -->
-<?php
-  if(!is_null($user_info[0]->bpjs_ks_status)){
-?>
-
-  <div class="col-sm-6 col-xl-4">
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <div class="ion ion-ios-paper display-4 text-info"></div>
-          <div class="ml-4">
-            <div class="text-muted small">BPJS KESEHATAN &nbsp&nbsp
-              <?php 
-                if($user_info[0]->bpjs_ks_status == 'AKTIF'){
-                  ?>
-                  <button type="button" class="btn btn-xs btn-outline-success"><?php echo $user_info[0]->bpjs_ks_status;?></button>
-                  <?php
-                } else {
-                  ?>
-                  <button type="button" class="btn btn-xs btn-outline-danger"><?php echo $user_info[0]->bpjs_ks_status;?></button>
-                  <?php
-                }
-              ?>
-              </div>
-            <div class="text-large"><?php echo $user_info[0]->bpjs_ks_no;?></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<?php 
-
-  } else {
-?>
-
-  <div class="col-sm-6 col-xl-4">
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <div class="ion ion-ios-paper display-4 text-info"></div>
-          <div class="ml-4">
-            <div class="text-muted small">BPJS KESEHATAN &nbsp&nbsp
-              <button type="button" class="btn btn-xs btn-outline-success">-</button></div>
-            <div class="text-large">Tidak Ditemukan..!</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<?php
-  }
-?>
-
 
 
 <!-- BPJS TK STATUS -->
-<?php
-  if(!is_null($user_info[0]->bpjs_tk_status)){
-?>
 
-  <div class="col-sm-6 col-xl-4">
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <div class="ion ion-ios-paper display-4 text-info"></div>
-          <div class="ml-4">
-            <div class="text-muted small">BPJS KETENAGAKERJAAN &nbsp&nbsp
-              <?php 
-                if($user_info[0]->bpjs_tk_status == 'AKTIF'){
-                  ?>
-                  <button type="button" class="btn btn-xs btn-outline-success"><?php echo $user_info[0]->bpjs_tk_status;?></button>
-                  <?php
-                } else {
-                  ?>
-                  <button type="button" class="btn btn-xs btn-outline-danger"><?php echo $user_info[0]->bpjs_tk_status;?></button>
-                  <?php
-                }
-              ?>
-              </div>
-            <div class="text-large"><?php echo $user_info[0]->bpjs_tk_no;?></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<?php 
-
-  } else {
-?>
-
-  <div class="col-sm-6 col-xl-4">
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <div class="ion ion-ios-paper display-4 text-info"></div>
-          <div class="ml-4">
-            <div class="text-muted small">BPJS KETENAGAKERJAAN &nbsp&nbsp
-              <button type="button" class="btn btn-xs btn-outline-success">-</button></div>
-            <div class="text-large">Tidak Ditemukan..!</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<?php
-  }
-?>
 
 </div>
 

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-   var xin_table = $('#xin_table').dataTable({ 
+   var xin_table = $('#xin_table').dataTable({
         "bDestroy": true,
 		"ajax": {
             url : site_url+"reports/report_sellout/0/0/0/0/0/",
@@ -14,27 +14,12 @@ $(document).ready(function() {
 	
 	$('[data-plugin="select_hrm"]').select2($(this).attr('data-options'));
 	$('[data-plugin="select_hrm"]').select2({ width:'100%' });
-
-
+	
 	jQuery("#aj_project").change(function(){
-    	jQuery.get(base_url+"/get_sub_project/"+jQuery(this).val(), function(data, status){
+    jQuery.get(base_url+"/get_sub_project/"+jQuery(this).val(), function(data, status){
       jQuery('#subproject_ajax').html(data);
-	    });
-	 });
-
-	// Month & Year
-	$('.attendance_date').datepicker({
-		changeMonth: true,
-		changeYear: true,
-		maxDate: '0',
-		dateFormat:'yy-mm-dd',
-		altField: "#date_format",
-		altFormat: js_date_format,
-		yearRange: '1970:' + new Date().getFullYear(),
-		beforeShow: function(input) {
-			$(input).datepicker("widget").show();
-		}
-	});
+    });
+  });
 
 	$('.view-modal-data').on('show.bs.modal', function (event) {
 	var button = $(event.relatedTarget);
@@ -51,7 +36,8 @@ $(document).ready(function() {
 		}
 		});
 	});
-		
+	
+	
 	/* attendance datewise report */
 	$("#attendance_datewise_report").submit(function(e){
 		/*Form Submit*/
@@ -73,6 +59,7 @@ $(document).ready(function() {
 			"bDestroy": true,
 			"ajax": {
 				url : site_url+"reports/report_sellout/"+project_id+"/"+subproject_id+"/"+area_emp+"/"+start_date+"/"+end_date+"/",
+				// url : site_url+"reports/empdtwise_attendance_list/"+company_id+"/"+project_id+"/"+subproject_id+"/"+start_date+"/"+end_date+"/",
 				type : 'GET'
 			},
 			dom: 'lBfrtip',
@@ -85,5 +72,4 @@ $(document).ready(function() {
 		// xin_table2.api().ajax.reload(function(){ }, true);
 		xin_table2.api().ajax.reload(function(){ Ladda.stopAll(); }, true);
 	});
-
 });
