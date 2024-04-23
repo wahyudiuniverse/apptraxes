@@ -95,3 +95,25 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 
+
+$db['cisdb'] = array(
+	'dsn'	=> 'mysql:host=194.31.53.203;dbname=siprama_globaldata',
+	'hostname' => "194.31.53.203",
+	'username' => "siprama_dbsc",
+	'password' => "86raG5RmWjth",
+	'database' => "siprama_globaldata",
+	'dbdriver' => 'pdo',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);

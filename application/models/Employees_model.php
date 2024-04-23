@@ -839,6 +839,16 @@ ORDER BY jab.designation_id ASC";
 		$query = $this->db->query($sql, $binds);
 		return $query->num_rows();
 	}	
+
+	// check employeeID
+	public function check_usermobile($id) {
+	
+		$sql = 'SELECT * FROM xin_user_mobile WHERE employee_id = ?';
+		$binds = array($id);
+		$query = $this->db->query($sql, $binds);
+		return $query->num_rows();
+	}	
+
 	// check old password
 	public function check_old_password($old_password,$user_id) {
 	

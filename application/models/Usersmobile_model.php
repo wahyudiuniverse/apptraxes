@@ -29,19 +29,17 @@
 	public function user_mobile_limit_fillter($company_id, $project_id, $subproject) {
 
 		if($subproject == "0"){
-			return $query = $this->db->query("SELECT userm.*, emp.sub_project_id
-			FROM xin_user_mobile userm
-			LEFT JOIN xin_employees emp ON emp.employee_id = userm.employee_id
-			WHERE userm.project_id = '$project_id'");
-
+			return $query = $this->db->query("SELECT * FROM xin_user_mobile WHERE project_id = '$project_id'");
 		} else {
-
-			return $query = $this->db->query("SELECT userm.*, emp.sub_project_id
-			FROM xin_user_mobile userm
-			LEFT JOIN xin_employees emp ON emp.employee_id = userm.employee_id
-			WHERE userm.project_id = '$project_id'
-			AND emp.sub_project_id = '$subproject'");
+			return $query = $this->db->query("SELECT * FROM xin_user_mobile WHERE project_id = '$project_id'
+			AND project_sub = '$subproject'");
 		}
+	}
+
+	// get employees list> reports
+	public function user_mobile_byemployee($company_id) {
+
+	return $query = $this->db->query("SELECT * FROM xin_user_mobile WHERE employee_id= '$company_id';");
 	}
 
 

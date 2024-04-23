@@ -1,11 +1,11 @@
-<?php $result = $this->Project_model->ajax_sub_project($id_project);?>
+<?php $result = $this->Project_model->ajax_sub_project($project_id);?>
 
 <div class="form-group">
   <label for="xin_sub_projects">Sub Project</label>
    <select name="sub_project_id" id="aj_subproject" class="form-control" data-plugin="select_hrm" data-placeholder="<?php echo $this->lang->line('xin_choose_an_employee');?>">
     <option value="0">--</option>
     <?php foreach($result as $sproj) {?>
-    <option value="<?php echo $sproj->secid;?>"> <?php echo $sproj->sub_project_name;?></option>
+    <option value="<?php echo $sproj->sub_project_name;?>"> <?php echo $sproj->sub_project_name;?></option>
     <?php } ?>
   </select>
 </div>

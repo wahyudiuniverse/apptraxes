@@ -10,7 +10,7 @@ $session = $this->session->userdata('username');
 
 
 <hr class="border-light m-0 mb-3">
-<?php if(in_array('243',$role_resources_ids)) {?>
+<?php if(in_array('207',$role_resources_ids)) {?>
 <?php $user_info = $this->Xin_model->read_user_info($session['user_id']);?>
 <div class="row m-b-1 <?php echo $get_animate;?>">
   <div class="col-md-4">

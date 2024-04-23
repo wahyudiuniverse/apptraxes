@@ -1517,6 +1517,16 @@ class Xin_model extends CI_Model {
   	  return $query->result();
 	}
 
+	// get all project
+	public function get_projects_usermobile()
+	{
+	  $query = $this->db->query("SELECT project_id, CONCAT('[',priority,']', ' ', title) AS title 
+		FROM xin_projects 
+		WHERE project_id IN (SELECT DISTINCT(project_id) FROM xin_user_mobile)
+		ORDER BY title ASC;");
+  	  return $query->result();
+	}
+
 	// get all designation
 	public function get_designations()
 	{
