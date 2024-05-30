@@ -15,46 +15,30 @@ $(document).ready(function() {
 	$('[data-plugin="xin_select"]').select2($(this).attr('data-options'));
 	$('[data-plugin="xin_select"]').select2({ width:'100%' }); 
 	
-		
-	/* Delete data */
-	$("#delete_record").submit(function(e){
-	/*Form Submit*/
-	e.preventDefault();
-		var obj = $(this), action = obj.attr('name');
-		$.ajax({
-			type: "POST",
-			url: e.target.action,
-			data: obj.serialize()+"&is_ajax=2&form="+action,
-			cache: false,
-			success: function (JSON) {
-				if (JSON.error != '') {
-					toastr.error(JSON.error);
-					$('input[name="csrf_hrpremium"]').val(JSON.csrf_hash);
-				} else {
-					$('.delete-modal').modal('toggle');
-					xin_table.api().ajax.reload(function(){ 
-						toastr.success(JSON.result);
-					}, true);		
-					$('input[name="csrf_hrpremium"]').val(JSON.csrf_hash);					
-				}
+
+	/* projects report */
+	$("#customer_akses").submit(function(e){
+		/*Form Submit*/
+		e.preventDefault();
+		var nip = $('#aj_id').val();
+
+		var xin_table2 = $('#xin_table').dataTable({
+			"bDestroy": true,
+			"ajax": {
+				url : base_url+"/customers_list/"+nip+"/",
+				// url : site_url+"akses_proje/akses_project_list/"+nip+"/",
+				type : 'GET'
+			},
+			dom: 'lBfrtip',
+			"buttons": ['csv', 'excel', 'pdf', 'print'], // colvis > if needed
+			"fnDrawCallback": function(settings){
+			$('[data-toggle="tooltip"]').tooltip();          
 			}
 		});
+		toastr.success('Request Submit.');
+		xin_table2.api().ajax.reload(function(){ Ladda.stopAll(); }, true);
 	});
-	$('.add-modal-data').on('show.bs.modal', function (event) {
-	var button = $(event.relatedTarget);
-	var invoice_id = button.data('invoice_id');
-	var modal = $(this);
-	$.ajax({
-		url :  base_url+"/read_invoice_data/",
-		type: "GET",
-		data: 'jd=1&is_ajax=1&mode=modal&data=view_invoice_status&edit=status&invoice_id='+invoice_id,
-		success: function (response) {
-			if(response) {
-				$("#add_ajax_modal").html(response);
-			}
-		}
-		});
-	});
+
 });
 	
 $( document ).on( "click", ".delete", function() {

@@ -23,21 +23,21 @@ class Dashboard extends MY_Controller {
 		  $this->load->model('Employees_model');
 		  $this->load->model('Xin_model');
 		  $this->load->model('Exin_model');
-		  $this->load->model('Expense_model');
-		  $this->load->model('Timesheet_model');
-		  $this->load->model('Travel_model');
-		  $this->load->model('Training_model');
+		  //$this->load->model('Expense_model');
+		  //$this->load->model('Timesheet_model');
+		  //$this->load->model('Travel_model');
+		  //$this->load->model('Training_model');
 		  $this->load->model('Project_model');
-		  $this->load->model('Job_post_model');
-		  $this->load->model('Goal_tracking_model');
-		  $this->load->model('Events_model');
-		  $this->load->model('Meetings_model');
-		  $this->load->model('Announcement_model');
-		  $this->load->model('Clients_model');
-		  $this->load->model("Recruitment_model");
-		  $this->load->model('Tickets_model');
-		  $this->load->model('Assets_model');
-		  $this->load->model('Awards_model');
+		  //$this->load->model('Job_post_model');
+		  //$this->load->model('Goal_tracking_model');
+		  //$this->load->model('Events_model');
+		  //$this->load->model('Meetings_model');
+		  //$this->load->model('Announcement_model');
+		  //$this->load->model('Clients_model');
+		  //$this->load->model("Recruitment_model");
+		  //$this->load->model('Tickets_model');
+		  //$this->load->model('Assets_model');
+		  //$this->load->model('Awards_model');
 		  $this->load->model('Esign_model');
 		  // $this->load->model('Pkwt_model');
      }
@@ -88,20 +88,20 @@ class Dashboard extends MY_Controller {
 			'date_of_birth' => $user[0]->date_of_birth,
 			'date_of_joining' => $user[0]->date_of_joining,
 			'contact_no' => $user[0]->contact_no,
-			'last_four_employees' => $this->Xin_model->last_four_employees(),
-			'get_last_payment_history' => $this->Xin_model->get_last_payment_history(),
-			'all_holidays' => $this->Timesheet_model->get_holidays_calendar(),
-			'all_leaves_request_calendar' => $this->Timesheet_model->get_leaves_request_calendar(),
-			'all_upcoming_birthday' => $this->Xin_model->employees_upcoming_birthday(),
-			'all_travel_request' => $this->Travel_model->get_travel(),
-			'all_training' => $this->Training_model->get_training(),
-			'all_projects' => $this->Project_model->get_projects(),
-			'all_tasks' => $this->Timesheet_model->get_tasks(),
-			'all_goals' => $this->Goal_tracking_model->get_goal_tracking(),
-			'all_events' => $this->Events_model->get_events(),
-			'all_meetings' => $this->Meetings_model->get_meetings(),
-			'all_jobsx' => $this->Job_post_model->five_latest_jobs(),
-			'all_jobs' => $this->Recruitment_model->get_all_jobs_last_desc()
+			'all_projects' => $this->Project_model->get_projects()
+			//'last_four_employees' => $this->Xin_model->last_four_employees(),
+			//'get_last_payment_history' => $this->Xin_model->get_last_payment_history(),
+			//'all_holidays' => $this->Timesheet_model->get_holidays_calendar(),
+			//'all_leaves_request_calendar' => $this->Timesheet_model->get_leaves_request_calendar(),
+			//'all_upcoming_birthday' => $this->Xin_model->employees_upcoming_birthday(),
+			//'all_travel_request' => $this->Travel_model->get_travel(),
+			//'all_training' => $this->Training_model->get_training(),
+			//'all_tasks' => $this->Timesheet_model->get_tasks(),
+			//'all_goals' => $this->Goal_tracking_model->get_goal_tracking(),
+			//'all_events' => $this->Events_model->get_events(),
+			//'all_meetings' => $this->Meetings_model->get_meetings(),
+			//'all_jobsx' => $this->Job_post_model->five_latest_jobs(),
+			//'all_jobs' => $this->Recruitment_model->get_all_jobs_last_desc()
 			);
 			$data['subview'] = $this->load->view('admin/dashboard/index', $data, TRUE);
 			$this->load->view('admin/layout/layout_main', $data); //page load
@@ -124,21 +124,21 @@ class Dashboard extends MY_Controller {
 			'department_name' => $department[0]->department_name,
 			'date_of_birth' => $user[0]->date_of_birth,
 			'date_of_joining' => $user[0]->date_of_joining,
-			'contact_no' => $user[0]->contact_no,
-			'last_four_employees' => $this->Xin_model->last_four_employees(),
-			'get_last_payment_history' => $this->Xin_model->get_last_payment_history(),
-			'all_holidays' => $this->Timesheet_model->get_holidays_calendar(),
-			'all_leaves_request_calendar' => $this->Timesheet_model->get_leaves_request_calendar(),
-			'all_upcoming_birthday' => $this->Xin_model->employees_upcoming_birthday(),
-			'all_travel_request' => $this->Travel_model->get_travel(),
-			'all_training' => $this->Training_model->get_training(),
-			'all_projects' => $this->Project_model->get_projects(),
-			'all_tasks' => $this->Timesheet_model->get_tasks(),
-			'all_goals' => $this->Goal_tracking_model->get_goal_tracking(),
-			'all_events' => $this->Events_model->get_events(),
-			'all_meetings' => $this->Meetings_model->get_meetings(),
-			'all_jobsx' => $this->Job_post_model->all_jobs(),
-			'all_jobs' => $this->Recruitment_model->get_all_jobs_last_desc()
+			'contact_no' => $user[0]->contact_no
+			//'last_four_employees' => $this->Xin_model->last_four_employees(),
+			//'get_last_payment_history' => $this->Xin_model->get_last_payment_history(),
+			//'all_holidays' => $this->Timesheet_model->get_holidays_calendar(),
+			//'all_leaves_request_calendar' => $this->Timesheet_model->get_leaves_request_calendar(),
+			//'all_upcoming_birthday' => $this->Xin_model->employees_upcoming_birthday(),
+			//'all_travel_request' => $this->Travel_model->get_travel(),
+			//'all_training' => $this->Training_model->get_training(),
+			//'all_projects' => $this->Project_model->get_projects(),
+			//'all_tasks' => $this->Timesheet_model->get_tasks(),
+			//'all_goals' => $this->Goal_tracking_model->get_goal_tracking(),
+			//'all_events' => $this->Events_model->get_events(),
+			//'all_meetings' => $this->Meetings_model->get_meetings(),
+			//'all_jobsx' => $this->Job_post_model->all_jobs(),
+			//'all_jobs' => $this->Recruitment_model->get_all_jobs_last_desc()
 			);
 			$data['subview'] = $this->load->view('admin/dashboard/index', $data, TRUE);
 			$this->load->view('admin/layout/layout_main', $data); //page load

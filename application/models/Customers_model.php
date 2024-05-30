@@ -15,6 +15,25 @@ class Customers_model extends CI_Model {
 	}
 
 
+ 	// monitoring request
+	public function get_customer_default() {
+
+		$sql = "SELECT *
+			FROM xin_customer LIMIT 0;";
+		// $binds = array(1,$cid);
+		$query = $this->db->query($sql);
+	    return $query;
+	}
+
+ 	// monitoring request
+	public function get_all_customer($idtoko) {
+
+		$sql = "SELECT customer_id, customer_name, owner_name, no_contact, address, village_id, district_id, city_id, latitude, longitude, createdon
+			FROM xin_customer WHERE customer_id = '$idtoko';";
+		// $binds = array(1,$cid);
+		$query = $this->db->query($sql);
+	    return $query;
+	}
 
 	// get single customer
 	public function read_single_customer($id) {
@@ -29,6 +48,7 @@ class Customers_model extends CI_Model {
 			return null;
 		}
 	}
+
 
 	// public function read_single_customer($id) {
 		
@@ -123,6 +143,16 @@ class Customers_model extends CI_Model {
 		} else {
 			return null;
 		}
+	}
+
+		// Function to update record in table
+	public function update_toko($data, $id){
+		$this->db->where('customer_id', $id);
+		if( $this->db->update('xin_customer',$data)) {
+			return true;
+		} else {
+			return false;
+		}		
 	}
 
 	

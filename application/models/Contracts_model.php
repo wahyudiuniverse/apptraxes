@@ -41,6 +41,8 @@ class Contracts_model extends CI_Model {
 	 	return $query;
 	}
 	
+
+
 	// Function to add record in table
 	public function add($data){
 		$this->db->insert('xin_meetings', $data);

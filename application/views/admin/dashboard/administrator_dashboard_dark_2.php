@@ -131,7 +131,7 @@ $theme = $this->Xin_model->read_theme_info(1);
           <div class="fab fa-fantasy-flight-games display-4"></div>
           <div class="ml-3">
             <div class="small"><?php echo $this->lang->line('xin_tasks');?></div>
-            <div class="text-big"><?php echo completed_tasks();?></div>
+            <div class="text-big">completed_tasks</div>
           </div>
         </div>
       </div>
@@ -144,7 +144,7 @@ $theme = $this->Xin_model->read_theme_info(1);
 
 <?php
 $current_month = date('Y-m-d');
-$working = $this->Xin_model->current_month_day_attendance($current_month);
+$working = 0;
 $query = $this->Xin_model->all_employees_status();
 $total = $query->num_rows();
 // absent
@@ -235,15 +235,14 @@ $emp_work = $working / $total * 100;
                         <h5><span><?php echo $this->lang->line('xin_tasks');?></span></h5>
                         <p class="text-muted"><?php echo $this->lang->line('xin_hrpremium_task_status');?></p>
                     </div>
-                    <?php $completed_tasks = completed_tasks();?>
-                    <?php $task_all = $this->Xin_model->get_all_tasks();
+                    <?php $task_all = 0;
 					if($task_all < 1) {
 						$task_percnt = 0;
 					} else {
-						$task_percnt = $completed_tasks / $task_all * 100;
+						$task_percnt = 0 / $task_all * 100;
                     }
                     ?>
-                    <h3 class="text-info fw-bold"><a class="text-card-mduted" href="<?php echo site_url('admin/timesheet/tasks');?>"><?php echo $this->Xin_model->get_all_tasks();?></a></h3>
+                    <h3 class="text-info fw-bold"><a class="text-card-mduted" href="<?php echo site_url('admin/timesheet/tasks');?>">get_task_all</a></h3>
                 </div>
                 <div class="progress progress-sm">
                     <div class="progress-bar progress-bar-info w-75" role="progressbar" aria-valuenow="<?php echo $this->Xin_model->set_percentage($task_percnt);?>" aria-valuemin="8" aria-valuemax="100" style="width: <?php echo $this->Xin_model->set_percentage($task_percnt);?>%"></div>
@@ -268,7 +267,7 @@ $emp_work = $working / $total * 100;
           <a href="javascript:void(0)" class="card-body media align-items-center text-body">
             <i class="fab fa-critical-role display-4 d-block text-primary"></i>
             <span class="media-body d-block ml-3">
-              <span class="text-big font-weight-bolder"><?php echo total_tickets();?></span><br>
+              <span class="text-big font-weight-bolder">total_tickets</span><br>
               <small class="text-muted"><?php echo $this->lang->line('xin_hr_total_tickets');?></small>
             </span>
           </a>
@@ -279,7 +278,7 @@ $emp_work = $working / $total * 100;
           <a href="javascript:void(0)" class="card-body media align-items-center text-body">
             <i class="lnr lnr-chart-bars display-4 d-block text-primary"></i>
             <span class="media-body d-block ml-3">
-              <span class="text-big"><?php echo total_open_tickets();?></span><br>
+              <span class="text-big">total_open_tickets</span><br>
               <small class="text-muted"><?php echo $this->lang->line('xin_hr_total_open_tickets');?></small>
             </span>
           </a>
@@ -290,7 +289,7 @@ $emp_work = $working / $total * 100;
           <a href="javascript:void(0)" class="card-body media align-items-center text-body">
             <i class="lnr lnr-checkmark-circle display-4 d-block text-primary"></i>
             <span class="media-body d-block ml-3">
-              <span class="text-big"><?php echo total_closed_tickets();?></span><br>
+              <span class="text-big">total_closed_tickets</span><br>
               <small class="text-muted"><?php echo $this->lang->line('xin_hr_total_closed_tickets');?></small>
             </span>
           </a>

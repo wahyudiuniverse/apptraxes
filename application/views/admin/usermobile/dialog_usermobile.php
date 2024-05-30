@@ -73,6 +73,7 @@ if(isset($_GET['jd']) && isset($_GET['department_id']) && $_GET['data']=='depart
   </div>
 
   <input type="hidden" name="employeeid" value="<?php echo $usermobile_id ?>"/>
+  <input type="hidden" name="project" value="<?php echo $project_id ?>"/>
 
 </div>
 

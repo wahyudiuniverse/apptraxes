@@ -324,7 +324,7 @@
       <li class="<?php if(!empty($arr_mod['customer_open']))echo $arr_mod['customer_open'];?> sidenav-item"> 
         <a href="#" class="sidenav-link sidenav-toggle"> 
           <i class="sidenav-icon ion ion-logo-buffer"></i>
-          <div><?php echo $this->lang->line('xin_customer');?></div>
+          <div>Database</div>
         </a>
         
         <ul class="sidenav-menu">
@@ -332,7 +332,7 @@
           if (in_array('69',$role_resources_ids)) { 
           ?>
             <li class="sidenav-item <?php if(!empty($arr_mod['customer_active']))echo $arr_mod['customer_active'];?>"> 
-              <a class="sidenav-link" href="<?php echo site_url('admin/customers/');?>" > <?php echo $this->lang->line('xin_customer');?> 
+              <a class="sidenav-link" href="<?php echo site_url('admin/customers/');?>" > Customers/Toko/Lokasi 
               </a> 
             </li>
           <?php 

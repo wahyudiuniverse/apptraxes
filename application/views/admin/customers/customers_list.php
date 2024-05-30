@@ -10,26 +10,55 @@
 <hr class="border-light m-0 mb-3">
 
 <div class="card <?php echo $get_animate;?>">
-  <div class="card-header with-elements"> <span class="card-header-title mr-2"><strong><?php echo $this->lang->line('xin_list_all');?></strong> <?php echo $this->lang->line('xin_customer');?></span>
-    <?php if(in_array('35',$role_resources_ids)) {?>
-    <div class="card-header-elements ml-md-auto"> <a class="text-dark"href="<?php echo site_url('admin/customers/create/')?>">
-      <button type="button" class="btn btn-xs btn-primary" onclick="window.location='<?php echo site_url('admin/customers/create/')?>'"> <span class="ion ion-md-add"></span> <?php echo $this->lang->line('xin_cust_create');?></button>
-      </a> </div>
-    <?php } ?>
+
+
+    <div class="col-md-12 <?php echo $get_animate;?>">
+        <div class="ui-bordered px-4 pt-4 mb-4">
+        <input type="hidden" id="user_id" value="0" />
+        <?php $attributes = array('name' => 'customer_akses', 'id' => 'customer_akses', 'autocomplete' => 'off', 'class' => 'add form-hrm');?>
+    <?php $hidden = array('euser_id' => $session['user_id']);?>
+        <?php echo form_open('admin/customers/', $attributes, $hidden);?>
+      <?php
+        $data = array(
+          'name'  => 'user_id',
+          'id'    => 'user_id',
+          'type'  => 'hidden',
+          'value' => $session['user_id'],
+          'class' => 'form-control');
+            echo form_input($data);
+      ?> 
+      
+      <div class="form-row">
+
+    
+        <div class="col-md mb-3">
+          <label class="form-label">ID Customer/ ID Toko/ ID Lokasi</label>
+          <input type="text" class="form-control" placeholder="MASUKAN ID LOKASI / ID TOKO" value="" id="aj_id" name="id_toko" />
+        </div>
+
+
+        <div class="col-md col-xl-2 mb-4">
+          <label class="form-label d-none d-md-block">&nbsp;</label>
+            <button type="submit" class="btn btn-secondary btn-block">SHOW</button>
+        </div>
+      </div>
+      <?php echo form_close(); ?>
+    </div>
   </div>
+
   <div class="card-body">
     <div class="box-datatable table-responsive">
       <table class="datatables-demo table table-striped table-bordered" id="xin_table">
         <thead>
           <tr>
+            <th>Act</th>
             <th><?php echo $this->lang->line('xin_id');?></th>
-            <th><?php echo $this->lang->line('xin_cust_name');?></th>
-            <th><?php echo $this->lang->line('xin_cust_address');?></th>
-            <th><?php echo $this->lang->line('xin_cust_village');?></th>
-            <th><?php echo $this->lang->line('xin_cust_distirct');?></th>
-            <th><?php echo $this->lang->line('xin_city');?></th>
-            <th><?php echo $this->lang->line('xin_cust_coordinat');?></th>
-            <th><?php echo $this->lang->line('xin_action');?></th>
+            <th>Nama Toko/Lokasi</th>
+            <th>Alamat</th>
+            <th>Kota/Kab</th>
+            <th>Kecamatan</th>
+            <th>Koordinat</th>
+            <th>CreatedOn</th>
           </tr>
         </thead>
       </table>
