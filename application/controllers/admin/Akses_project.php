@@ -73,41 +73,29 @@ class Akses_project extends MY_Controller {
 		$start = intval($this->input->get("start"));
 		$length = intval($this->input->get("length"));
 		
+		$nip = $this->uri->segment(4);
 		
 		$role_resources_ids = $this->Xin_model->user_role_resource();
 		$user_info = $this->Xin_model->read_user_info($session['user_id']);
-		// if($user_info[0]->user_role_id==1){
-		// 	$designation = $this->Designation_model->get_designations();
-		// } else {
-		// 	$designation = $this->Designation_model->get_company_designations($user_info[0]->company_id);
-		// }
 
-			$aksesproject = $this->Project_model->get_akses_projects();
+
+			if($nip=="0" || is_null($nip)){
+				$aksesproject = $this->Project_model->list_akses_project();
+				// $usermobile = $this->Usersmobile_model->user_mobile_limit();
+			}else{
+				$aksesproject = $this->Project_model->list_akses_project_nip($nip);
+				// $usermobile = $this->Usersmobile_model->user_mobile_limit_fillter($company_id, $project_id, $subproject_id);
+			}
 
 		$data = array();
 
       foreach($aksesproject->result() as $r) {
-			 
 
       $ids = $r->secid;
       $nip = $r->nip;
-      $project_id = $r->project_id;
-
-			$posisi = $this->Employees_model->read_employee_jabatan($r->nip);
-			if(!is_null($posisi)){
-				$nama_lengkap = $posisi[0]->first_name;
-				$nama_posisi = $posisi[0]->designation_name;
-			} else {
-				$nama_lengkap = '--';	
-				$nama_posisi = '--';	
-			}
-
-			$project = $this->Project_model->read_single_project($r->project_id);
-			if(!is_null($project)){
-				$project_name = $project[0]->title;
-			} else {
-				$project_name = '--';	
-			}
+      $nama_lengkap = $r->first_name;
+      $nama_posisi = $r->designation_name;
+      $project_name = $r->title;
 
 			if(in_array('209',$role_resources_ids)) { // delete
 				$delete = '<span data-toggle="tooltip" data-placement="top" data-state="danger" title="'.$this->lang->line('xin_delete').'"><button type="button" class="btn icon-btn btn-sm btn-outline-danger waves-effect waves-light delete" data-toggle="modal" data-target=".delete-modal" data-record-id="'. $r->secid . '"><span class="fas fa-trash-restore"></span></button></span>';

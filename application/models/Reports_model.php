@@ -456,7 +456,7 @@ WHERE employee_id = '99'");
 		return $query = $this->db->query("
 
 
-SELECT cio.status_emp, cio.employee_id, userm.fullname, userm.company_id, userm.company_name, userm.project_id, userm.project_name, userm.project_sub, userm.jabatan, userm.penempatan, cio.customer_id, cust.customer_name, cust.owner_name, cust.no_contact, DATE_FORMAT(cio.date_cio, '%Y-%m-%d') AS date_phone, DATE_FORMAT(cio.datetimephone_in, '%H:%i:%s') AS time_in, DATE_FORMAT(cio.datetimephone_out, '%H:%i:%s') AS time_out, TIMEDIFF(cio.datetimephone_out, cio.datetimephone_in) AS timestay, cio.latitude_in, cio.longitude_in, distance_in, foto_in, foto_out
+SELECT cio.status_emp, cio.employee_id, userm.fullname, userm.company_id, userm.company_name, userm.project_id, userm.project_name, userm.project_sub, userm.jabatan, userm.penempatan, cio.customer_id, cust.customer_name, cust.address, cust.owner_name, cust.no_contact, DATE_FORMAT(cio.date_cio, '%Y-%m-%d') AS date_phone, DATE_FORMAT(cio.datetimephone_in, '%H:%i:%s') AS time_in, DATE_FORMAT(cio.datetimephone_out, '%H:%i:%s') AS time_out, TIMEDIFF(cio.datetimephone_out, cio.datetimephone_in) AS timestay, cio.latitude_in, cio.longitude_in, distance_in, foto_in, foto_out
 FROM `tx_cio` cio
 LEFT JOIN xin_user_mobile userm ON userm.employee_id = cio.employee_id
 LEFT JOIN xin_customer cust ON cust.customer_id = cio.customer_id
@@ -472,7 +472,7 @@ AND DATE_FORMAT(cio.date_cio, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
 		return $query = $this->db->query("
 
 
-SELECT cio.status_emp, cio.employee_id, userm.fullname, userm.company_id, userm.company_name, userm.project_id, userm.project_name, userm.project_sub, userm.jabatan, userm.penempatan, cio.customer_id, cust.customer_name, cust.owner_name, cust.no_contact, DATE_FORMAT(cio.date_cio, '%Y-%m-%d') AS date_phone, DATE_FORMAT(cio.datetimephone_in, '%H:%i:%s') AS time_in, DATE_FORMAT(cio.datetimephone_out, '%H:%i:%s') AS time_out, TIMEDIFF(cio.datetimephone_out, cio.datetimephone_in) AS timestay, cio.latitude_in, cio.longitude_in, distance_in, foto_in, foto_out
+SELECT cio.status_emp, cio.employee_id, userm.fullname, userm.company_id, userm.company_name, userm.project_id, userm.project_name, userm.project_sub, userm.jabatan, userm.penempatan, cio.customer_id, cust.customer_name, cust.address, cust.owner_name, cust.no_contact, DATE_FORMAT(cio.date_cio, '%Y-%m-%d') AS date_phone, DATE_FORMAT(cio.datetimephone_in, '%H:%i:%s') AS time_in, DATE_FORMAT(cio.datetimephone_out, '%H:%i:%s') AS time_out, TIMEDIFF(cio.datetimephone_out, cio.datetimephone_in) AS timestay, cio.latitude_in, cio.longitude_in, distance_in, foto_in, foto_out
 FROM `tx_cio` cio
 LEFT JOIN xin_user_mobile userm ON userm.employee_id = cio.employee_id
 LEFT JOIN xin_customer cust ON cust.customer_id = cio.customer_id

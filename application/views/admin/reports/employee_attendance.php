@@ -55,12 +55,12 @@
           </div>
 
           <div class="col-md mb-3">
-              <label class="form-label"><?php echo $this->lang->line('xin_select_date');?></label>
+              <label class="form-label">Pilih Tanggal Awal</label>
               <input class="form-control date" placeholder="<?php echo $this->lang->line('xin_select_date');?>" readonly id="start_date" name="start_date" id="aj_sdate" type="text" value="<?php echo date('Y-m-d');?>">
           </div>
             
             <div class="col-md mb-3">
-              <label class="form-label"><?php echo $this->lang->line('xin_select_date');?></label>
+              <label class="form-label">Pilih Tanggal Akhir</label>
               <input class="form-control date" placeholder="<?php echo $this->lang->line('xin_select_date');?>" readonly id="end_date" name="end_date" id="aj_edate" type="text" value="<?php echo date('Y-m-d');?>">
             </div>
 
@@ -97,6 +97,7 @@
                 <th>Status Visit</th>
                 <th>ID Toko/Office</th>
                 <th>Toko/Office</th>
+                <th>Alamat/Lokasi</th>
 
                 <th>Nama Pemilik</th>
                 <th>Nomor Kontak</th>

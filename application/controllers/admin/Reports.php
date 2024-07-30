@@ -1545,7 +1545,7 @@ class Reports extends MY_Controller
 				$status_att,
 				$r->customer_id,
 				$r->customer_name,
-
+				$r->address,
 				$r->owner_name,
 				$r->no_contact,
 
