@@ -1,4 +1,4 @@
-<?php $session = $this->session->userdata('username'); ?>
+<?php $session = $this->session->userdata('username'); ?>'
 <?php $company = $this->Xin_model->read_company_setting_info(1);?>
 <?php $user = $this->Xin_model->read_user_info($session['user_id']); ?>
 <?php $system = $this->Xin_model->read_setting_info(1);?>
@@ -53,7 +53,7 @@ $(document).ready(function(){
 </script>
 <?php }?>
 <!-- Editor-->
-<script type="text/javascript" src="<?php echo base_url();?>skin/hrpremium_vendor/assets/vendor/Trumbowyg/dist/trumbowyg.min.js"></script>
+<!-- <script type="text/javascript" src="<?php //echo base_url();?>skin/hrpremium_vendor/assets/vendor/Trumbowyg/dist/trumbowyg.min.js"></script> -->
 <script src="<?php echo base_url();?>skin/hrpremium_vendor/assets/vendor/libs/select2/select2.js"></script>
 <script src="<?php echo base_url();?>skin/hrpremium_vendor/assets/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 <script src="<?php echo base_url();?>skin/hrpremium_vendor/assets/vendor/libs/validate/validate.js"></script>

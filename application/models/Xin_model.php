@@ -2134,7 +2134,7 @@ class Xin_model extends CI_Model {
 	  $query = $this->db->query("SELECT * from xin_office_location");
   	  return $query->result();
 	}
-	
+
 	// get all companies
 	public function all_companies_dash()
 	{

@@ -1355,15 +1355,28 @@ class Reports extends MY_Controller
 
 		$data['all_projects'] = $this->Project_model->get_project_maping($session['employee_id']);
 
-		
-		// if(in_array('139',$role_resources_ids)) {
-		// 	$data['all_projects'] = $this->Project_model->get_project_exist_all();
-		// } else {
-		// 	// $data['all_projects'] = $this->Project_model->get_project_exist_all();
-		// 	$data['all_projects'] = $this->Project_model->get_project_exist();
-		// }
 		if(in_array('112',$role_resources_ids)) {
 			$data['subview'] = $this->load->view("admin/reports/employee_attendance", $data, TRUE);
+			$this->load->view('admin/layout/layout_main', $data); //page load
+		} else {
+			redirect('admin/dashboard');
+		}
+	}
+
+	public function employee_overtime() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+		$role_resources_ids = $this->Xin_model->user_role_resource();
+		$data['title'] = 'Lembur | '.$this->Xin_model->site_title();
+		$data['breadcrumbs'] = 'lembur';
+		$data['path_url'] = 'reports_emp_overtime';
+		$data['all_companies'] = $this->Xin_model->get_companies();
+
+		$data['all_projects'] = $this->Project_model->get_project_maping($session['employee_id']);
+		if(in_array('112',$role_resources_ids)) {
+			$data['subview'] = $this->load->view("admin/reports/employee_overtime", $data, TRUE);
 			$this->load->view('admin/layout/layout_main', $data); //page load
 		} else {
 			redirect('admin/dashboard');
@@ -1455,8 +1468,7 @@ class Reports extends MY_Controller
 		}
 	}
 
-	// daily attendance list > timesheet
-    public function empdtwise_attendance_list()
+	public function empdtwise_attendance_list()
     {
 
 		$data['title'] = $this->Xin_model->site_title();
@@ -1571,6 +1583,117 @@ class Reports extends MY_Controller
 
     }
 
+
+
+	public function report_overtime()
+    {
+
+		$data['title'] = $this->Xin_model->site_title();
+		$session = $this->session->userdata('username');
+		if(!empty($session)){ 
+			$this->load->view("admin/reports/employee_overtime", $data);
+		} else {
+			redirect('admin/');
+		}
+		// Datatables Variables
+		$draw = intval($this->input->get("draw"));
+		$start = intval($this->input->get("start"));
+		$length = intval($this->input->get("length"));
+
+		
+		// $company_id = $this->uri->segment(4);
+		$project_id = $this->uri->segment(4);
+		$sub_id = $this->uri->segment(5);
+		$area = $this->uri->segment(6);
+		$start_date = $this->uri->segment(7);
+		$end_date = $this->uri->segment(8);
+		// $finalarea = str_replace("%20"," ",$area);
+		$finalsub_pro = $sub_id;
+
+		if($project_id==0){
+			// $employee = $this->Reports_model->filter_report_emp_att($project_id,$sub_id,$area,$start_date,$end_date);
+			$employee = $this->Reports_model->filter_report_overtime_att_null();
+		} else {
+			$employee = $this->Reports_model-> filter_report_overtime($project_id,$sub_id,'0',$start_date,$end_date);
+		}
+
+		$tes_q = $this->db->last_query();
+
+
+			// $employee = $this->Reports_model->filter_report_emp_att_null();
+		// $employee = $this->Employees_model->get_employees();
+
+		$data = array();
+
+		// for($i=0 ; $i < count($attend); $i++) {
+ 		foreach($employee->result() as $r) {
+
+			if(!is_null($r->foto_in)){
+				$fotovIn = 'https://api.traxes.id/'.$r->foto_in;
+			} else {
+				$fotovIn = '-';
+			}
+
+
+			if($r->status_emp==1) {
+				$status_att = 'Visit';
+			} else if($r->status_emp == 2) {
+				$status_att = 'Izin';
+			} else if($r->status_emp == 3) {
+				$status_att = 'Sakit';
+			} else if($r->status_emp == 4) {
+				$status_att = 'Cuti';
+			} else if($r->status_emp == 5) {
+				$status_att = 'Off';
+			} else if($r->status_emp == 6) {
+				$status_att = 'Lembur';
+			} else {
+				$status_att = '-';
+			}
+
+			$data[] = array (
+				$r->employee_id,
+				$r->fullname,
+				$r->project_name,
+				$r->project_sub,
+				$r->jabatan,
+				$r->penempatan,
+				$status_att,
+				$r->customer_id,
+				$r->customer_name,
+				$r->address,
+				// $r->address,
+				$r->owner_name,
+				$r->no_contact,
+				$r->date_phone,
+				$r->extracted_date,
+				$r->extracted_time,
+				$r->extracted_date_out,
+				$r->extracted_time_out,
+				$fotovIn
+			);
+		}
+
+
+	  $output = array(
+		   "draw" => $draw,
+			 "recordsTotal" => $employee->num_rows(),
+			 "recordsFiltered" => $employee->num_rows(),
+			 "data" => $data
+		);
+	  echo json_encode($output);
+
+	// echo "<pre>";
+	// print_r($data);
+	// echo "</pre>";
+	  exit();
+
+    }
+
+		// daily attendance list > timesheet
+
+
+    
 	
 
 	// daily attendance list > timesheet
