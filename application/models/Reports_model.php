@@ -582,6 +582,44 @@ AND cio.status_emp = 6;
 		}
 	}
 
+	public function filter_report_emp_sellin_null() 
+	{
+		return $query = $this->db->query("
+		SELECT skuc.secid, skuc.employee_id, userm.fullname, skuc.material_id, skum.nama_material, skuc.customer_id, cust.customer_name, cust.address, skuc.stock_date, skuc.stock_qty, skuc.created_at
+	    FROM mp_sku_customer skuc 
+		LEFT JOIN xin_sku_material skum ON skum.kode_sku = skuc.material_id
+		LEFT JOIN xin_user_mobile userm ON userm.employee_id = skuc.employee_id
+		LEFT JOIN xin_customer cust ON cust.customer_id = skuc.customer_id LIMIT 0
+		");
+	}
+
+	public function filter_report_emp_sellin($project_id, $sub_id, $area, $start_date, $end_date) {
+		if ($sub_id == '0') {
+			return $query = $this->db->query("
+			SELECT skuc.secid, skuc.employee_id, userm.fullname, skuc.material_id, skum.nama_material, skuc.customer_id, cust.customer_name, cust.address, skuc.stock_date, skuc.stock_qty, skuc.stock_out, skuc.created_at
+			FROM mp_sku_customer skuc 
+			LEFT JOIN xin_sku_material skum ON skum.kode_sku = skuc.material_id
+			LEFT JOIN xin_user_mobile userm ON userm.employee_id = skuc.employee_id
+			LEFT JOIN xin_customer cust ON cust.customer_id = skuc.customer_id 
+			WHERE userm.project_id = '$project_id'
+			AND DATE_FORMAT(skuc.created_at, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
+			");
+		} else {
+			return $query = $this->db->query("
+			SELECT skuc.secid, skuc.employee_id, userm.fullname, userm.project_name, userm.jabatan, userm.penempatan, userm.project_sub, skuc.material_id, skum.nama_material, skuc.customer_id, cust.customer_name, cust.address, skuc.stock_date, skuc.stock_qty, skuc.stock_out, skuc.created_at
+			FROM mp_sku_customer skuc 
+			LEFT JOIN xin_sku_material skum ON skum.kode_sku = skuc.material_id
+			LEFT JOIN xin_user_mobile userm ON userm.employee_id = skuc.employee_id
+			LEFT JOIN xin_customer cust ON cust.customer_id = skuc.customer_id
+			WHERE userm.project_id = '$project_id'
+			AND REPLACE(userm.project_sub, ' ', '') = '$sub_id'
+			AND DATE_FORMAT(skuc.created_at, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
+			");
+		}
+	}
+
+	
+
 
 
 	// get employees att reports
@@ -595,6 +633,8 @@ LEFT JOIN xin_sku_material skum ON skum.kode_sku = ordr.material_id
 LEFT JOIN xin_user_mobile userm ON userm.employee_id = ordr.employee_id
 LEFT JOIN xin_customer cust ON cust.customer_id = ordr.customer_id LIMIT 0");
 	}
+
+	
 
 
 	// get employees att reports

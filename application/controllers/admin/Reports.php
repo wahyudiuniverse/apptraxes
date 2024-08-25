@@ -1383,6 +1383,27 @@ class Reports extends MY_Controller
 		}
 	}
 
+	public function employee_sellin() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){ 
+			redirect('admin/');
+		}
+		$role_resources_ids = $this->Xin_model->user_role_resource();
+		$data['title'] = 'Sell-In | '.$this->Xin_model->site_title();
+		$data['breadcrumbs'] = 'SellIn';
+		$data['path_url'] = 'reports_emp_sellin';
+		$data['all_companies'] = $this->Xin_model->get_companies();
+
+		$data['all_projects'] = $this->Project_model->get_project_maping($session['employee_id']);
+
+		if(in_array('112',$role_resources_ids)) {
+			$data['subview'] = $this->load->view("admin/reports/employee_sellin", $data, TRUE);
+			$this->load->view('admin/layout/layout_main', $data); //page load
+		} else {
+			redirect('admin/dashboard');
+		}
+	}
+
 
 	// reports > employee attendance
 	public function employee_sellout() {
@@ -1690,13 +1711,78 @@ class Reports extends MY_Controller
 
     }
 
-		// daily attendance list > timesheet
+	public function report_sellin()
+    {
+
+		$data['title'] = $this->Xin_model->site_title();
+		$session = $this->session->userdata('username');
+		if(!empty($session)){ 
+			$this->load->view("admin/reports/employee_sellin", $data);
+		} else {
+			redirect('admin/');
+		}
+		// Datatables Variables
+		$draw = intval($this->input->get("draw"));
+		$start = intval($this->input->get("start"));
+		$length = intval($this->input->get("length"));
+
+		
+		// $company_id = $this->uri->segment(4);
+		$project_id = $this->uri->segment(4);
+		$sub_id = $this->uri->segment(5);
+		$area = $this->uri->segment(6);
+		$start_date = $this->uri->segment(7);
+		$end_date = $this->uri->segment(8);
+		// $finalarea = str_replace("%20"," ",$area);
+		$finalsub_pro = $sub_id;
+
+		if($project_id==0){
+			// $employee = $this->Reports_model->filter_report_emp_att($project_id,$sub_id,$area,$start_date,$end_date);
+			$orders = $this->Reports_model->filter_report_emp_sellin_null();
+		} else {
+			$orders = $this->Reports_model->filter_report_emp_sellin($project_id,$sub_id,'0',$start_date,$end_date);
+		}
+
+			// $employee = $this->Reports_model->filter_report_emp_att_null();
+		// $employee = $this->Employees_model->get_employees();
+
+		$data = array();
+
+		// for($i=0 ; $i < count($attend); $i++) {
+ 		foreach($orders->result() as $r) {
 
 
-    
-	
 
-	// daily attendance list > timesheet
+
+			$data[] = array (
+				 $r->employee_id,
+				 $r->fullname,
+				 $r->project_name,
+				 $r->project_sub,
+				 $r->jabatan,
+				 $r->penempatan,
+				 $r->customer_id,
+				 $r->customer_name,
+				 $r->material_id,
+				 $r->nama_material,
+				 $r->stock_date,
+				 $r->stock_qty,
+				 $r->stock_out
+				
+			);
+		}
+
+
+	  $output = array(
+		   "draw" => $draw,
+			 "recordsTotal" => $orders->num_rows(),
+			 "recordsFiltered" => $orders->num_rows(),
+			 "data" => $data
+		);
+	  echo json_encode($output);
+	  exit();
+
+    }
     public function report_sellout()
     {
 
