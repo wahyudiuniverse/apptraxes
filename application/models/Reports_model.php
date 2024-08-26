@@ -468,7 +468,7 @@ WHERE employee_id = '99'");
 			return $query = $this->db->query("
 
 
-SELECT cio.status_emp, cio.employee_id, userm.fullname, userm.company_id, userm.company_name, userm.project_id, userm.project_name, userm.project_sub, userm.jabatan, userm.penempatan, cio.customer_id, cust.customer_name, cust.address, cust.owner_name, cust.no_contact, DATE_FORMAT(cio.date_cio, '%Y-%m-%d') AS date_phone, DATE_FORMAT(cio.datetimephone_in, '%H:%i:%s') AS time_in, DATE_FORMAT(cio.datetimephone_out, '%H:%i:%s') AS time_out, TIMEDIFF(cio.datetimephone_out, cio.datetimephone_in) AS timestay, cio.latitude_in, cio.longitude_in, distance_in, foto_in, foto_out
+SELECT cio.status_emp, cio.employee_id, userm.fullname, userm.company_id, userm.company_name, userm.project_id, userm.project_name, userm.project_sub, userm.jabatan, userm.penempatan, cio.customer_id, cust.customer_name, cust.address, cust.owner_name, cust.no_contact, DATE_FORMAT(cio.date_cio, '%Y-%m-%d') AS date_phone, DATE_FORMAT(cio.datetimephone_in, '%H:%i:%s') AS time_in, DATE_FORMAT(cio.createdon, '%H:%i:%s') as jam_sistem_in, DATE_FORMAT(cio.createdon_out, '%H:%i:%s') as jam_sistem_out, DATE_FORMAT(cio.datetimephone_out, '%H:%i:%s') AS time_out, TIMEDIFF(cio.datetimephone_out, cio.datetimephone_in) AS timestay, cio.latitude_in, cio.longitude_in, distance_in, foto_in, foto_out
 FROM `tx_cio` cio
 LEFT JOIN xin_user_mobile userm ON userm.employee_id = cio.employee_id
 LEFT JOIN xin_customer cust ON cust.customer_id = cio.customer_id
@@ -482,7 +482,7 @@ AND DATE_FORMAT(cio.date_cio, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
 			return $query = $this->db->query("
 
 
-SELECT cio.status_emp, cio.employee_id, userm.fullname, userm.company_id, userm.company_name, userm.project_id, userm.project_name, userm.project_sub, userm.jabatan, userm.penempatan, cio.customer_id, cust.customer_name, cust.address, cust.owner_name, cust.no_contact, DATE_FORMAT(cio.date_cio, '%Y-%m-%d') AS date_phone, DATE_FORMAT(cio.datetimephone_in, '%H:%i:%s') AS time_in, DATE_FORMAT(cio.datetimephone_out, '%H:%i:%s') AS time_out, TIMEDIFF(cio.datetimephone_out, cio.datetimephone_in) AS timestay, cio.latitude_in, cio.longitude_in, distance_in, foto_in, foto_out
+SELECT cio.status_emp, cio.employee_id, userm.fullname, userm.company_id, userm.company_name, userm.project_id, userm.project_name, userm.project_sub, userm.jabatan, userm.penempatan, cio.customer_id, cust.customer_name, cust.address, cust.owner_name, cust.no_contact, DATE_FORMAT(cio.date_cio, '%Y-%m-%d') AS date_phone, DATE_FORMAT(cio.datetimephone_in, '%H:%i:%s') AS time_in, DATE_FORMAT(cio.createdon, '%H:%i:%s') as jam_sistem_in, DATE_FORMAT(cio.createdon_out, '%H:%i:%s') as jam_sistem_out, DATE_FORMAT(cio.datetimephone_out, '%H:%i:%s') AS time_out, TIMEDIFF(cio.datetimephone_out, cio.datetimephone_in) AS timestay, cio.latitude_in, cio.longitude_in, distance_in, foto_in, foto_out
 FROM `tx_cio` cio
 LEFT JOIN xin_user_mobile userm ON userm.employee_id = cio.employee_id
 LEFT JOIN xin_customer cust ON cust.customer_id = cio.customer_id
@@ -490,15 +490,12 @@ WHERE cio.project_id = '$project_id'
 AND REPLACE(userm.project_sub, ' ', '')  = '$sub_id'
 AND DATE_FORMAT(cio.date_cio, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
 
-
 			");
 		}
 	}
 
-
 	public function filter_report_overtime_att_null()
 	{
-
 
 		return $query = $this->db->query("SELECT employee_id, customer_id, datetime_phone as date_phone, datetime_phone as time_in, datetime_phone as time_out, datetime_phone as timestay
 FROM xin_trx_cio
@@ -582,6 +579,7 @@ AND cio.status_emp = 6;
 		}
 	}
 
+
 	public function filter_report_emp_sellin_null() 
 	{
 		return $query = $this->db->query("
@@ -592,6 +590,7 @@ AND cio.status_emp = 6;
 		LEFT JOIN xin_customer cust ON cust.customer_id = skuc.customer_id LIMIT 0
 		");
 	}
+
 
 	public function filter_report_emp_sellin($project_id, $sub_id, $area, $start_date, $end_date) {
 		if ($sub_id == '0') {
@@ -617,11 +616,7 @@ AND cio.status_emp = 6;
 			");
 		}
 	}
-
 	
-
-
-
 	// get employees att reports
 	public function filter_report_emp_sellout_null()
 	{
@@ -633,8 +628,6 @@ LEFT JOIN xin_sku_material skum ON skum.kode_sku = ordr.material_id
 LEFT JOIN xin_user_mobile userm ON userm.employee_id = ordr.employee_id
 LEFT JOIN xin_customer cust ON cust.customer_id = ordr.customer_id LIMIT 0");
 	}
-
-	
 
 
 	// get employees att reports

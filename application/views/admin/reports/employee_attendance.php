@@ -104,7 +104,9 @@
 
                 <th>Tanggal</th>
                 <th><?php echo $this->lang->line('dashboard_clock_in');?></th>
+                <th>Clock IN System</th>
                 <th><?php echo $this->lang->line('dashboard_clock_out');?></th>
+                <th>Clock Out System</th>
                 <th>Koordinat</th>
                 <th>Total Jam Kerja</th>
                 <th>Foto IN</th>

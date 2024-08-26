@@ -1383,27 +1383,6 @@ class Reports extends MY_Controller
 		}
 	}
 
-	public function employee_sellin() {
-		$session = $this->session->userdata('username');
-		if(empty($session)){ 
-			redirect('admin/');
-		}
-		$role_resources_ids = $this->Xin_model->user_role_resource();
-		$data['title'] = 'Sell-In | '.$this->Xin_model->site_title();
-		$data['breadcrumbs'] = 'SellIn';
-		$data['path_url'] = 'reports_emp_sellin';
-		$data['all_companies'] = $this->Xin_model->get_companies();
-
-		$data['all_projects'] = $this->Project_model->get_project_maping($session['employee_id']);
-
-		if(in_array('112',$role_resources_ids)) {
-			$data['subview'] = $this->load->view("admin/reports/employee_sellin", $data, TRUE);
-			$this->load->view('admin/layout/layout_main', $data); //page load
-		} else {
-			redirect('admin/dashboard');
-		}
-	}
-
 
 	// reports > employee attendance
 	public function employee_sellout() {
@@ -1429,6 +1408,28 @@ class Reports extends MY_Controller
 		// }
 		if(in_array('112',$role_resources_ids)) {
 			$data['subview'] = $this->load->view("admin/reports/employee_sellout", $data, TRUE);
+			$this->load->view('admin/layout/layout_main', $data); //page load
+		} else {
+			redirect('admin/dashboard');
+		}
+	}
+
+
+	public function employee_sellin() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){ 
+			redirect('admin/');
+		}
+		$role_resources_ids = $this->Xin_model->user_role_resource();
+		$data['title'] = 'Sell-In | '.$this->Xin_model->site_title();
+		$data['breadcrumbs'] = 'SellIn';
+		$data['path_url'] = 'reports_emp_sellin';
+		$data['all_companies'] = $this->Xin_model->get_companies();
+
+		$data['all_projects'] = $this->Project_model->get_project_maping($session['employee_id']);
+
+		if(in_array('112',$role_resources_ids)) {
+			$data['subview'] = $this->load->view("admin/reports/employee_sellin", $data, TRUE);
 			$this->load->view('admin/layout/layout_main', $data); //page load
 		} else {
 			redirect('admin/dashboard');
@@ -1584,7 +1585,9 @@ class Reports extends MY_Controller
 
 				$r->date_phone,
 				$r->time_in,
+				$r->jam_sistem_in,
 				$r->time_out,
+				$r->jam_sistem_out,
 				$r->latitude_in.', '.$r->longitude_in,
 				$r->timestay,
 				$fotovIn,
@@ -1603,8 +1606,6 @@ class Reports extends MY_Controller
 	  exit();
 
     }
-
-
 
 	public function report_overtime()
     {
@@ -1711,6 +1712,9 @@ class Reports extends MY_Controller
 
     }
 
+		// daily attendance list > timesheet
+
+	
 	public function report_sellin()
     {
 
@@ -1783,6 +1787,9 @@ class Reports extends MY_Controller
 	  exit();
 
     }
+
+
+	// daily attendance list > timesheet
     public function report_sellout()
     {
 
