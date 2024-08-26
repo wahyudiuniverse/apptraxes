@@ -461,7 +461,7 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
 
       <ul class="sidenav-menu">
         <?php
-        if (in_array('112', $role_resources_ids)) {
+        if (in_array('111', $role_resources_ids)) {
         ?>
           <li class="sidenav-item <?php if (!empty($arr_mod['remployees_active'])) echo $arr_mod['remployees_active']; ?>">
             <a class="sidenav-link" href="<?php echo site_url('admin/reports/employee_attendance/'); ?>"> Report Check In-Out
@@ -472,7 +472,7 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
         ?>
 
         <?php
-        if (in_array('112', $role_resources_ids)) {
+        if (in_array('131', $role_resources_ids)) {
         ?>
           <li class="sidenav-item <?php if (!empty($arr_mod['sellout_active'])) echo $arr_mod['sellout_active']; ?>">
             <a class="sidenav-link" href="<?php echo site_url('admin/reports/employee_sellout/'); ?>"> Report Sell-Out
@@ -483,7 +483,7 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
         ?>
 
          <?php
-        if (in_array('112', $role_resources_ids)) {
+        if (in_array('121', $role_resources_ids)) {
         ?>
           <li class="sidenav-item <?php if (!empty($arr_mod['sellin_active'])) echo $arr_mod['sellin_active']; ?>">
             <a class="sidenav-link" href="<?php echo site_url('admin/reports/employee_sellin/'); ?>"> Report Stock/Sell-in
@@ -494,11 +494,11 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
         ?>
 
         
-
+        <!-- KINO DISABLED -->
         <?php
-        if (in_array('112', $role_resources_ids)) {
+        if (in_array('0009', $role_resources_ids)) {
         ?>
-          <li class="sidenav-item <?php if (!empty($arr_mod['remployees_active'])) echo $arr_mod['remployees_active']; ?>">
+          <li class="sidenav-item <?php if (!empty($arr_mod['rorder_active'])) echo $arr_mod['rorder_active']; ?>">
             <a class="sidenav-link" href="<?php echo site_url('admin/reports/report_order/'); ?>"> <?php echo $this->lang->line('xin_order_report'); ?>
             </a>
           </li>
@@ -507,9 +507,9 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
         ?>
 
         <?php
-        if (in_array('112', $role_resources_ids)) {
+        if (in_array('151', $role_resources_ids)) {
         ?>
-          <li class="sidenav-item <?php if (!empty($arr_mod['remployees_active'])) echo $arr_mod['remployees_active']; ?>">
+          <li class="sidenav-item <?php if (!empty($arr_mod['rovertime_active'])) echo $arr_mod['rovertime_active']; ?>">
             <a class="sidenav-link" href="<?php echo site_url('admin/reports/employee_overtime/'); ?>"> Report lembur
             </a>
           </li>

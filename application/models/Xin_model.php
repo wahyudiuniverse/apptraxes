@@ -721,7 +721,24 @@ class Xin_model extends CI_Model {
 			$arr['reports_active'] = 'active';
 			$arr['reports_open'] = 'open';
 			return $arr;
-		} 
+		} else if($mClass=='reports'  && $mMethod=='employee_sellout') {
+			$arr['sellout_active'] = 'active';
+			$arr['reports_open'] = 'open';
+			return $arr;
+		} else if($mClass=='reports'  && $mMethod=='employee_sellin') {
+			$arr['sellin_active'] = 'active';
+			$arr['reports_open'] = 'open';
+			return $arr;
+		} else if($mClass=='reports'  && $mMethod=='report_order') {
+			$arr['rorder_active'] = 'active';
+			$arr['reports_open'] = 'open';
+			return $arr;
+		} else if($mClass=='reports'  && $mMethod=='employee_overtime') {
+			$arr['rovertime_active'] = 'active';
+			$arr['reports_open'] = 'open';
+			return $arr;
+		}
+
 		else if($mClass=='employee_request') {
 			$arr['emp_request_active'] = 'active';
 			$arr['emp_request_open'] = 'open';
