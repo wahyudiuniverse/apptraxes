@@ -579,6 +579,40 @@ AND cio.status_emp = 6;
 		}
 	}
 
+	public function filter_report_display_mbd_null () {
+		return $query = $this->db->query("
+		SELECT dismbd.secid, dismbd.employee_id, userm.fullname, cus.customer_name, dismbd.customer_id, dismbd.display_date, dismbd.display_info, dismbd.display_foto, dismbd.verify_status
+		FROM xin_display_mbd dismbd 
+		LEFT JOIN xin_customer cus ON cus.customer_id = dismbd.customer_id 
+		LEFT JOIN xin_user_mobile userm ON userm.employee_id = dismbd.employee_id LIMIT 0
+		");
+	}
+
+	public function filter_report_display_mbd($project_id, $sub_id, $area, $start_date, $end_date) {
+		if($sub_id == '0') {
+			return $query = $this->db->query("
+			SELECT dismbd.secid, dismbd.employee_id, userm.fullname, cus.customer_name, dismbd.customer_id, dismbd.display_date, dismbd.display_info, dismbd.display_foto, dismbd.verify_status
+			FROM xin_display_mbd dismbd 
+			LEFT JOIN xin_customer cus ON cus.customer_id = dismbd.customer_id 
+			LEFT JOIN xin_user_mobile userm ON userm.employee_id = dismbd.employee_id 
+			WHERE dismbd.project_id = '$project_id'
+			AND DATE_FORMAT(dismbd.createdon, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date' 
+			ORDER BY `secid` DESC 
+		");
+		} else {
+			return $query = $this->db->query("
+			SELECT dismbd.secid, dismbd.employee_id, userm.fullname, cus.customer_name, dismbd.customer_id, dismbd.display_date, dismbd.display_info, dismbd.display_foto, dismbd.verify_status
+			FROM xin_display_mbd dismbd 
+			LEFT JOIN xin_customer cus ON cus.customer_id = dismbd.customer_id 
+			LEFT JOIN xin_user_mobile userm ON userm.employee_id = dismbd.employee_id 
+			WHERE dismbd.project_id = '$project_id'
+			AND DATE_FORMAT(dismbd.createdon, '%Y-%m-%d') BETWEEN '$start_date' AND '$end_date'
+			AND REPLACE(userm.project_sub, ' ', '') = '$sub_id'
+			ORDER BY `secid` DESC 
+			");
+		}
+	}
+
 
 	public function filter_report_emp_sellin_null() 
 	{
