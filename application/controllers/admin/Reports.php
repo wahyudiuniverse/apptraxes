@@ -1414,6 +1414,30 @@ class Reports extends MY_Controller
 		}
 	}
 
+	public function employee_display_mbd() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){ 
+			redirect('admin/');
+		}
+		$role_resources_ids = $this->Xin_model->user_role_resource();
+		$data['title'] = 'Display MBD | '.$this->Xin_model->site_title();
+		$data['breadcrumbs'] = 'Display MBD';
+		$data['path_url'] = 'reports_emp_display_mbd';
+		$data['all_companies'] = $this->Xin_model->get_companies();
+
+		$data['all_projects'] = $this->Project_model->get_project_maping($session['employee_id']);
+
+		$data['all_emp'] = $this->Project_model->get_emp_by_project_id('38');
+
+		if(in_array('112',$role_resources_ids)) {
+			$data['subview'] = $this->load->view("admin/reports/employee_display_mbd", $data, TRUE);
+			$this->load->view('admin/layout/layout_main', $data); //page load
+		} else {
+			redirect('admin/dashboard');
+		}
+	}
+	
+
 
 	public function employee_sellin() {
 		$session = $this->session->userdata('username');
@@ -1773,6 +1797,85 @@ class Reports extends MY_Controller
 				 $r->stock_qty,
 				 $r->stock_out
 				
+			);
+		}
+
+
+	  $output = array(
+		   "draw" => $draw,
+			 "recordsTotal" => $orders->num_rows(),
+			 "recordsFiltered" => $orders->num_rows(),
+			 "data" => $data
+		);
+	  echo json_encode($output);
+	  exit();
+
+    }
+
+	public function report_display_mbd()
+    {
+
+		$data['title'] = $this->Xin_model->site_title();
+		$session = $this->session->userdata('username');
+		if(!empty($session)){ 
+			$this->load->view("admin/reports/employee_display_mbd", $data);
+		} else {
+			redirect('admin/');
+		}
+		// Datatables Variables
+		$draw = intval($this->input->get("draw"));
+		$start = intval($this->input->get("start"));
+		$length = intval($this->input->get("length"));
+
+		
+		// $company_id = $this->uri->segment(4);
+		$emp_id = $this->uri->segment(4);
+		$customer_id = $this->uri->segment(5);
+		$area = $this->uri->segment(6);
+		$start_date = $this->uri->segment(7);
+		$end_date = $this->uri->segment(8);
+		// $finalarea = str_replace("%20"," ",$area);
+		// $finalsub_pro = $sub_id;
+
+		if($emp_id==0){
+			// $employee = $this->Reports_model->filter_report_emp_att($project_id,$sub_id,$area,$start_date,$end_date);
+			$orders = $this->Reports_model->filter_report_display_mbd_null();
+		} else {
+			$orders = $this->Reports_model->filter_report_display_mbd($emp_id,$customer_id,'0',$start_date,$end_date);
+		}
+
+			// $employee = $this->Reports_model->filter_report_emp_att_null();
+		// $employee = $this->Employees_model->get_employees();
+
+		$data = array();
+
+		// for($i=0 ; $i < count($attend); $i++) {
+ 		foreach($orders->result() as $r) {
+
+			if(!is_null($r->display_foto)){
+				$fotoDis = 'https://api.traxes.id/'.$r->display_foto;
+			} else {
+				$fotoDis = '-';
+			}
+
+
+			$data[] = array (
+				 $r->employee_id,
+				 $r->fullname,
+				 $r->project_name,
+				 $r->project_sub,
+				 $r->jabatan,
+				 $r->penempatan,
+				 $r->customer_id,
+				 $r->customer_name,
+				 $r->penempatan,
+				 $r->jabatan,
+				 $r->display_date,
+				 $fotoDis,
+				 $r->display_info,
+				 $r->verify_status,
+				 $r->verify_on,
+				 $r->verify_by
 			);
 		}
 
@@ -2607,6 +2710,45 @@ class Reports extends MY_Controller
 		$start = intval($this->input->get("start"));
 		$length = intval($this->input->get("length"));
 	}
+
+	public function get_toko_by_employee() {
+		$data['title'] = $this->Xin_model->site_title();
+		$id = $this->uri->segment(4);
+
+		$data = array(
+			'user_id' => $id
+		);
+		$session = $this->session->userdata('username');
+		if(!empty($session)) {
+			$this->load->view("admin/reports/get_toko_by_filter", $data);
+		} else {
+			redirect('admin/');
+		}
+		$draw = intval($this->input->get("draw"));
+		$start = intval($this->input->get("start"));
+		$length = intval($this->input->get("length"));
+	}
+
+	public function get_emp_by_project() {
+		$data['title'] = $this->Xin_model->site_title();
+		$id = $this->uri->segment(4);
+		
+		$data = array(
+			'id_project' => $id
+		);
+		$session = $this->session->userdata('username');
+		if(!empty($session)){ 
+			$this->load->view("admin/reports/get_emp_by_project_id", $data);
+		} else {
+			redirect('admin/');
+		}
+		// Datatables Variables
+		$draw = intval($this->input->get("draw"));
+		$start = intval($this->input->get("start"));
+		$length = intval($this->input->get("length"));
+	}
+
+	
 
 
 	 // get location > departments

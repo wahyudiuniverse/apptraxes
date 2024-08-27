@@ -11,7 +11,7 @@
         <input type="hidden" id="user_id" value="0" />
         <?php $attributes = array('name' => 'attendance_datewise_report', 'id' => 'attendance_datewise_report', 'autocomplete' => 'off', 'class' => 'add form-hrm');?>
 		<?php $hidden = array('euser_id' => $session['user_id']);?>
-        <?php echo form_open('admin/reports/employee_sellin', $attributes, $hidden);?>
+        <?php echo form_open('admin/reports/employee_display_mbd', $attributes, $hidden);?>
         <?php
             $data = array(
               'name'        => 'user_id',
@@ -28,21 +28,21 @@
 
             <div class="col-md mb-3">
 
-            <label class="form-label">Projects <?php echo $session['employee_id'];?></label>
-              <select class="form-control" name="project_id" id="aj_project" data-plugin="select_hrm" data-placeholder="<?php echo $this->lang->line('left_projects');?>">
+            <label class="form-label">Employee</label>
+              <select class="form-control" name="emp_id" id="emp_id" data-plugin="select_hrm" data-placeholder="<?php echo $this->lang->line('left_projects');?>">
                   <option value="0">--</option>
-                  <?php if($session['user_id']=='9197'){ echo '<option value="22">PT. SIPRAMA CAKRAWALA</option>'; }?>
-                <?php foreach($all_projects as $proj) {?>
+                  
+                <?php foreach($all_emp as $emp) {?>
 
-                  <option value="<?php echo $proj->project_id;?>"> <?php echo $proj->title;?></option>
+                  <option value="<?php echo $emp->user_id;?>"> [ <?php echo $emp->employee_id;?> ] - <?php echo $emp->fullname;?></option>
                 <?php } ?>
               </select>
             </div>
 
 
-          <div class="col-md mb-3" id="subproject_ajax">
-            <label class="form-label">Sub Projects</label>
-            <select class="form-control" name="sub_project_id" data-plugin="select_hrm" data-placeholder="Sub Project">
+          <div class="col-md mb-3" id="outlet_ajax">
+            <label class="form-label">Toko</label>
+            <select class="form-control" name="outlet_id" id="outlet_id" data-plugin="select_hrm" data-placeholder="Sub Project">
               <option value="0">--</option>
             </select>
           </div>
@@ -96,11 +96,15 @@
                 <th>Area</th>
                 <th>Cust ID</th>
                 <th>Cust Name</th>
-                <th>ID Material</th>
-                <th>Nama Material</th>
+                <th>Penempatan</th>
+                <th>Jabatan</th>
                 <th>Tanggal</th>
-                <th>Stock qty</th>
-                <th>Stock akhir</th>
+                <th>Display foto</th>
+                <th>Info Display</th>
+                <th>Status verifikasi</th>
+                <th>Tanggal verifikasi</th>
+                <th>Diverifikasi oleh</th>
+               
               </tr>
             </thead>
           </table>
