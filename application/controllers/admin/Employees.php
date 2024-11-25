@@ -209,6 +209,115 @@ class Employees extends MY_Controller {
           exit();
   }
 
+
+  public function get_employee_by_project()
+	{
+		$postData = $this->input->post();
+
+		// get data 
+		$data = $this->Employees_model->get_employee_by_project($postData);
+
+		echo json_encode($data);
+	}
+
+	public function get_toko_by_employee()
+	{
+		$postData = $this->input->post();
+
+		// get data 
+		$data = $this->Employees_model->get_employee_by_toko($postData['employee_id']);
+
+		echo json_encode($data);
+	}
+
+	public function get_toko_by_employee_detail()
+	{
+		$postData = $this->input->post();
+
+		// get data 
+		$data = $this->Employees_model->get_employee_by_toko_detail($postData['id_toko']);
+
+		echo json_encode($data);
+	}
+
+	public function get_toko_by_employee_detail_mbd()
+	{
+		$postData = $this->input->post();
+
+		// get data 
+		$data = $this->Employees_model->get_employee_by_toko_detail_mbd($postData['id_mbd']);
+
+		echo json_encode($data);
+	}
+
+	public function get_toko_by_employee_detail_mbd_validasi()
+	{
+		$postData = $this->input->post();
+
+		// get data 
+		$data = $this->Employees_model->get_employee_by_toko_detail_mbd_validasi($postData['id_mbd']);
+
+		echo json_encode($data);
+	}
+
+	//load datatables list batch saltab release untuk download
+	public function list_batch_saltab_release_download()
+	{
+
+		// POST data
+		$postData = $this->input->post();
+
+		// Get data
+		$data = $this->Import_model->get_list_batch_saltab_release_download($postData);
+
+		echo json_encode($data);
+	}
+	
+
+	public function update_verifikasi() {
+        // Ambil ID User dari request
+        $secid = $this->input->post('id_mbd');
+
+        // Validasi data
+        if (empty($secid)) {
+            echo "ID User tidak ditemukan!";
+            return;
+        }
+
+        // Update data ke database
+        $this->load->model('Employees_model');
+        $result = $this->Employees_model->update_verifikasi($secid);
+
+        // Respon ke AJAX
+        if ($result) {
+            echo "Data berhasil divalidasi.";
+        } else {
+            echo "Gagal memvalidasi data.";
+        }
+    }
+
+	public function update_tolakverifikasi() {
+        // Ambil ID User dari request
+        $secid = $this->input->post('id_mbd');
+
+        // Validasi data
+        if (empty($secid)) {
+            echo "ID User tidak ditemukan!";
+            return;
+        }
+
+        // Update data ke database
+        $this->load->model('Employees_model');
+        $result = $this->Employees_model->update_tolakverifikasi($secid);
+
+        // Respon ke AJAX
+        if ($result) {
+            echo "Data berhasil divalidasi.";
+        } else {
+            echo "Gagal memvalidasi data.";
+        }
+    }
+
   public function emp_request_list() {
 
 			$data['title'] = $this->Xin_model->site_title();

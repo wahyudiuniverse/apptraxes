@@ -1355,7 +1355,7 @@ class Reports extends MY_Controller
 
 		$data['all_projects'] = $this->Project_model->get_project_maping($session['employee_id']);
 
-		if(in_array('112',$role_resources_ids)) {
+		if(in_array('111',$role_resources_ids)) {
 			$data['subview'] = $this->load->view("admin/reports/employee_attendance", $data, TRUE);
 			$this->load->view('admin/layout/layout_main', $data); //page load
 		} else {
@@ -1436,8 +1436,55 @@ class Reports extends MY_Controller
 			redirect('admin/dashboard');
 		}
 	}
-	
 
+
+	public function employee_mbd_admin() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){ 
+			redirect('admin/');
+		}
+		$role_resources_ids = $this->Xin_model->user_role_resource();
+		$data['title'] = 'Display MBD | '.$this->Xin_model->site_title();
+		$data['breadcrumbs'] = 'MBD ADMIN';
+		$data['path_url'] = 'reports_emp_display_mbd';
+		$data['all_companies'] = $this->Xin_model->get_companies();
+
+		$data['all_projects'] = $this->Project_model->get_project_maping($session['employee_id']);
+
+		$data['all_emp'] = $this->Project_model->get_emp_by_project_id('38');
+
+		if(in_array('112',$role_resources_ids)) {
+			$data['subview'] = $this->load->view("admin/reports/employee_mbd_admin", $data, TRUE);
+			$this->load->view('admin/layout/layout_main', $data); //page load
+		} else {
+			redirect('admin/dashboard');
+		}
+	}
+
+
+	public function employee_mbd_report() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){ 
+			redirect('admin/');
+		}
+		$role_resources_ids = $this->Xin_model->user_role_resource();
+		$data['title'] = 'Display MBD | '.$this->Xin_model->site_title();
+		$data['breadcrumbs'] = 'MBD REPORT';
+		$data['path_url'] = 'reports_emp_display_mbd';
+		$data['all_companies'] = $this->Xin_model->get_companies();
+
+		$data['all_projects'] = $this->Project_model->get_project_maping($session['employee_id']);
+
+		$data['all_emp'] = $this->Project_model->get_emp_by_project_id('38');
+
+		if(in_array('112',$role_resources_ids)) {
+			$data['subview'] = $this->load->view("admin/reports/employee_mbd_report", $data, TRUE);
+			$this->load->view('admin/layout/layout_main', $data); //page load
+		} else {
+			redirect('admin/dashboard');
+		}
+	}
+	
 
 	public function employee_sellin() {
 		$session = $this->session->userdata('username');

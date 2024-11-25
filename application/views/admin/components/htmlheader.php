@@ -27,6 +27,8 @@
   <link rel="stylesheet" href="<?php echo base_url();?>skin/hrpremium_vendor/assets/vendor/css/rtl/colors.css" class="theme-settings-colors-css">
   <link rel="stylesheet" href="<?php echo base_url();?>skin/hrpremium_vendor/assets/vendor/css/rtl/uikit.css">
   <link rel="stylesheet" href="<?php echo base_url();?>skin/hrpremium_vendor/assets/css/demo.css">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   
   <script src="<?php echo base_url();?>skin/hrpremium_vendor/assets/vendor/js/polyfills.js"></script>
 

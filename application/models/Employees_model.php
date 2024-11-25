@@ -18,6 +18,89 @@ class Employees_model extends CI_Model {
 	    return $query;
 	}
 
+
+	//ambil data jabatan berdasarkan sub project untuk Json
+	public function get_employee_by_project($postData)
+	{
+		$this->db->select('*');
+		$this->db->from('xin_employees');
+		$this->db->where('project_id', $postData['project_id']);
+
+		$query = $this->db->get()->result_array();
+
+		return $query;
+	}
+
+	public function get_employee_by_toko($id)
+	{
+		$query = $this->db->query("SELECT DISTINCT a.`customer_id` , b.customer_name FROM `xin_display_mbd` a 
+		LEFT JOIN xin_customer b ON  b.customer_id = a.customer_id
+		WHERE `employee_id` = '$id' ");
+
+  	  return $query->result_array();	
+	}
+
+
+	public function get_employee_by_toko_detail($id)
+	{
+		$query = $this->db->query("SELECT a.secid,a.customer_id,a.display_date, a.display_foto, a.status_display, a.verify_status, a.verify_by, a.verify_on, a.employee_id  FROM `xin_display_mbd` a 
+		LEFT JOIN xin_customer b ON  b.customer_id = a.customer_id
+		WHERE a.customer_id = '$id' 
+		ORDER BY a.secid DESC");
+
+  	  return $query->result_array();
+	}
+
+	public function get_employee_by_toko_detail_mbd($id)
+	{
+		$query = $this->db->query("SELECT secid,customer_id,display_date, display_foto, status_display, verify_status, verify_by, verify_on  FROM `xin_display_mbd` WHERE secid = '$id' ");
+
+  	  return $query->row_array();
+	}
+
+	public function get_employee_by_toko_detail_mbd_validasi($id)
+	{
+		$query = $this->db->query("SELECT secid,customer_id,display_date, display_foto, status_display, verify_status, verify_by, verify_on  FROM `xin_display_mbd` WHERE secid = '$id' ");
+
+  	  return $query->row_array();
+	}
+
+	public function update_verifikasi($secid) {
+        // Set nilai kolom status ke 'valid' dan tambahkan timestamp updated_at
+		$session = $this->session->userdata('username');
+
+		$this->db->set('verify_by', $session['employee_id']);
+        $this->db->set('verify_status', '1');
+        $this->db->set('verify_on', date('Y-m-d H:i:s')); // Timestamp otomatis
+        $this->db->where('secid', $secid); // Kondisi berdasarkan id_user
+        return $this->db->update('xin_display_mbd'); // Nama tabel validasi
+    }
+
+	public function update_tolakverifikasi($secid) {
+        // Set nilai kolom status ke 'valid' dan tambahkan timestamp updated_at
+		$session = $this->session->userdata('username');
+
+		$this->db->set('verify_by', $session['employee_id']);
+        $this->db->set('verify_status', '0');
+        $this->db->set('verify_on', date('Y-m-d H:i:s')); // Timestamp otomatis
+        $this->db->where('secid', $secid); // Kondisi berdasarkan id_user
+        return $this->db->update('xin_display_mbd'); // Nama tabel validasi
+    }
+
+	public function get_toko() {
+
+		$sql = 'SELECT emp.user_id, emp.employee_id, emp.ktp_no, emp.first_name, emp.project_id, pro.title, emp.last_login_date,
+				emp.designation_id, pos.designation_name, emp.penempatan, emp.contact_no, emp.date_of_birth, emp.user_role_id
+				FROM xin_employees emp
+				LEFT JOIN xin_projects pro ON pro.project_id = emp.project_id
+				LEFT JOIN xin_designations pos ON pos.designation_id = emp.designation_id
+				WHERE emp.employee_id not IN (1)';
+		// $binds = array(1,$cid);
+		$query = $this->db->query($sql);
+	    return $query;
+	}
+
+
 	public function get_employees_all() {
 
 		$sql = 'SELECT emp.user_id, emp.employee_id, emp.ktp_no, emp.first_name, emp.project_id, pro.title, emp.last_login_date,
