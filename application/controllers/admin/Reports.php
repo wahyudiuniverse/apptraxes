@@ -1429,7 +1429,7 @@ class Reports extends MY_Controller
 
 		$data['all_emp'] = $this->Project_model->get_emp_by_project_id('38');
 
-		if(in_array('112',$role_resources_ids)) {
+		if(in_array('171',$role_resources_ids)) {
 			$data['subview'] = $this->load->view("admin/reports/employee_display_mbd", $data, TRUE);
 			$this->load->view('admin/layout/layout_main', $data); //page load
 		} else {

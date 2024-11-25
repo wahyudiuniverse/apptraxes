@@ -332,14 +332,13 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
   <!-- organization -->
   <?php
   if (
-    in_array('2', $role_resources_ids)
-    || in_array('3', $role_resources_ids)
-    || in_array('4', $role_resources_ids)
+    in_array('4', $role_resources_ids)
+    || in_array('44', $role_resources_ids)
+    || in_array('130', $role_resources_ids)
+    || in_array('207', $role_resources_ids)
     || in_array('5', $role_resources_ids)
     || in_array('6', $role_resources_ids)
-    || in_array('11', $role_resources_ids)
-    || in_array('9', $role_resources_ids)
-    || in_array('119', $role_resources_ids)
+    || in_array('478', $role_resources_ids)
   ) {
   ?>
     <li class="<?php if (!empty($arr_mod['adm_open'])) echo $arr_mod['adm_open']; ?> sidenav-item">
@@ -445,13 +444,64 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
   }
   ?>
 
+  <!-- DISPLAY MENU -->
+    <?php
+    if (in_array('200', $role_resources_ids) ||in_array('201', $role_resources_ids) || in_array('202', $role_resources_ids) ||in_array('203', $role_resources_ids)) {
+    ?>
+      <li class="<?php if (!empty($arr_mod['display_open'])) echo $arr_mod['display_open']; ?> sidenav-item">
+        <a href="#" class="sidenav-link sidenav-toggle">
+          <i class="sidenav-icon ion ion-logo-buffer"></i>
+          <div>Display</div>
+        </a>
 
+        <ul class="sidenav-menu">
+          <?php
+          if (in_array('201', $role_resources_ids)) {
+          ?>
+            <li class="sidenav-item <?php if (!empty($arr_mod['remployees_active'])) echo $arr_mod['remployees_active']; ?>">
+              <a class="sidenav-link" href="<?php echo site_url('admin/#/'); ?>"> Display RAK
+              </a>
+            </li>
+          <?php
+          }
+          ?>
 
+          <?php
+          if (in_array('202', $role_resources_ids)) {
+          ?>
+            <li class="sidenav-item <?php if (!empty($arr_mod['sellout_active'])) echo $arr_mod['sellout_active']; ?>">
+              <a class="sidenav-link" href="<?php echo site_url('admin/employees/employee_mbd_admin'); ?>"> Display MBD
+              </a>
+            </li>
+          <?php
+          }
+          ?>
 
+           <?php
+          if (in_array('203', $role_resources_ids)) {
+          ?>
+            <li class="sidenav-item <?php if (!empty($arr_mod['sellin_active'])) echo $arr_mod['sellin_active']; ?>">
+              <a class="sidenav-link" href="<?php echo site_url('admin/#/'); ?>"> Display PLANO
+              </a>
+            </li>
+          <?php
+          }
+          ?>
+
+        </ul>
+      </li>
+    <?php
+    }
+    ?>
 
   <!-- mobile report -->
   <?php
-  if (in_array('110', $role_resources_ids) || in_array('112', $role_resources_ids)) {
+  if (in_array('11', $role_resources_ids) 
+    || in_array('121', $role_resources_ids)
+    || in_array('131', $role_resources_ids)
+    || in_array('151', $role_resources_ids)
+    || in_array('171', $role_resources_ids) 
+    || in_array('105', $role_resources_ids) ) {
   ?>
     <li class="<?php if (!empty($arr_mod['reports_open'])) echo $arr_mod['reports_open']; ?> sidenav-item">
       <a href="#" class="sidenav-link sidenav-toggle">
@@ -518,7 +568,7 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
         ?>
 
         <?php
-        if (in_array('112', $role_resources_ids)) {
+        if (in_array('171', $role_resources_ids)) {
         ?>
           <li class="sidenav-item <?php if (!empty($arr_mod['remployees_active'])) echo $arr_mod['remployees_active']; ?>">
             <a class="sidenav-link" href="<?php echo site_url('admin/reports/employee_display_mbd/'); ?>"> Report MBD
@@ -544,63 +594,6 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
   }
   ?>
 
-  <!-- invoice -->
-  <?php
-  if (
-    in_array('121', $role_resources_ids)
-    || in_array('330', $role_resources_ids)
-    || in_array('122', $role_resources_ids)
-    || in_array('426', $role_resources_ids)
-  ) {
-  ?>
-    <li class="<?php if (!empty($arr_mod['invoices_open'])) echo $arr_mod['invoices_open']; ?> sidenav-item">
-      <a href="#" class="sidenav-link sidenav-toggle">
-        <i class="sidenav-icon fas fa-file-invoice-dollar"></i>
-        <div><?php echo $this->lang->line('xin_invoices_title'); ?></div>
-      </a>
-      <ul class="sidenav-menu">
-        <?php
-        if (in_array('121', $role_resources_ids)) {
-        ?>
-          <li class="sidenav-item <?php if (!empty($arr_mod['invoices_inv_active'])) echo $arr_mod['invoices_inv_active']; ?>"> <a class="sidenav-link" href="<?php echo site_url('admin/invoices/'); ?>"> <?php echo $this->lang->line('xin_invoices_title'); ?> </a> </li>
-        <?php
-        }
-        ?>
-
-        <?php
-        if (in_array('426', $role_resources_ids)) {
-        ?>
-          <li class="sidenav-item <?php if (!empty($arr_mod['invoice_calendar_active'])) echo $arr_mod['invoice_calendar_active']; ?>">
-            <a class="sidenav-link" href="<?php echo site_url('admin/invoices/invoice_calendar/'); ?>"> <?php echo $this->lang->line('xin_invoice_calendar'); ?> </a>
-          </li>
-        <?php
-        }
-        ?>
-
-        <?php
-        if (in_array('330', $role_resources_ids)) {
-        ?>
-          <li class="sidenav-item <?php if (!empty($arr_mod['payments_history_inv_active'])) echo $arr_mod['payments_history_inv_active']; ?>">
-            <a class="sidenav-link" href="<?php echo site_url('admin/invoices/payments_history/'); ?>"> <?php echo $this->lang->line('xin_acc_invoice_payments'); ?> </a>
-          </li>
-        <?php
-        }
-        ?>
-
-        <?php
-        if (in_array('122', $role_resources_ids)) {
-        ?>
-          <li class="sidenav-item <?php if (!empty($arr_mod['taxes_inv_active'])) echo $arr_mod['taxes_inv_active']; ?>">
-            <a class="sidenav-link" href="<?php echo site_url('admin/invoices/taxes/'); ?>"> <?php echo $this->lang->line('xin_invoice_tax_type'); ?> </a>
-          </li>
-        <?php
-        }
-        ?>
-      </ul>
-    </li>
-  <?php
-  }
-  ?>
 
 
 </ul>

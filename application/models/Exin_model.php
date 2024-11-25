@@ -29,6 +29,7 @@ class Exin_model extends CI_Model {
 		}
 	}
 	
+	
 	// get single employee
 	public function read_employee_info($id) {
 	
