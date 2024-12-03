@@ -1437,7 +1437,7 @@ class Reports extends MY_Controller
 		}
 	}
 
-
+	//MBD ADMIN - RIO
 	public function employee_mbd_admin() {
 		$session = $this->session->userdata('username');
 		if(empty($session)){ 
@@ -1461,7 +1461,7 @@ class Reports extends MY_Controller
 		}
 	}
 
-
+	// MBD REPORT - RIO
 	public function employee_mbd_report() {
 		$session = $this->session->userdata('username');
 		if(empty($session)){ 
@@ -1473,8 +1473,9 @@ class Reports extends MY_Controller
 		$data['path_url'] = 'reports_emp_display_mbd';
 		$data['all_companies'] = $this->Xin_model->get_companies();
 
-		$data['all_projects'] = $this->Project_model->get_project_maping($session['employee_id']);
+		// $data['all_projects'] = $this->Project_model->get_project_maping($session['employee_id']);
 
+		$data['all_projects'] = $this->Project_model->get_project_mbd_report($session['employee_id']);
 		$data['all_emp'] = $this->Project_model->get_emp_by_project_id('38');
 
 		if(in_array('112',$role_resources_ids)) {

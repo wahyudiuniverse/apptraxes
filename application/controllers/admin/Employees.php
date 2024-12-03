@@ -209,8 +209,38 @@ class Employees extends MY_Controller {
           exit();
   }
 
+  public function get_project_by_users()
+	{
+		$postData = $this->input->post();
 
-  public function get_employee_by_project()
+		// get data 
+		$data = $this->Employees_model->get_project_by_users($postData);
+
+		echo json_encode($data);
+	}
+
+
+  public function get_project_0_mbd_report()
+	{
+		$postData = $this->input->post();
+
+		// get data 
+		$data = $this->Employees_model->get_project_0_mbd_report($postData);
+		// $data = $this->Employees_model->get_project_0_mbd_report($id);
+		echo json_encode($data);
+	}
+
+	public function get_user_1_mbd_report()
+	{
+		$postData = $this->input->post();
+
+		// get data 
+		$data = $this->Employees_model->get_user_1_mbd_report($postData['id_toko']);
+
+		echo json_encode($data);
+	}
+
+	public function get_employee_by_project()
 	{
 		$postData = $this->input->post();
 
@@ -219,6 +249,7 @@ class Employees extends MY_Controller {
 
 		echo json_encode($data);
 	}
+
 
 	public function get_toko_by_employee()
 	{
@@ -236,6 +267,16 @@ class Employees extends MY_Controller {
 
 		// get data 
 		$data = $this->Employees_model->get_employee_by_toko_detail($postData['id_toko']);
+
+		echo json_encode($data);
+	}
+
+	public function get_employee_by_toko_mbd_report()
+	{
+		$postData = $this->input->post();
+
+		// get data 
+		$data = $this->Employees_model->get_employee_by_toko_mbd_report($postData['employee_id']);
 
 		echo json_encode($data);
 	}
@@ -296,6 +337,17 @@ class Employees extends MY_Controller {
         }
     }
 
+	// get data table List MBD Report
+	public function get_datatable_mbd_report() {
+		// $this->load->model('Data_model'); // Memuat model
+		// $data['results'] = $this->Data_model->get_data(); // Ambil data dari model
+		// $this->load->view('data_table', $data); // Kirim data ke view
+		$postData = $this->input->post();
+		// get data 
+		$data = $this->Employees_model->get_datatable_mbd_report($postData['secid']);
+		echo json_encode($data);
+	}
+
 	public function update_tolakverifikasi() {
         // Ambil ID User dari request
         $secid = $this->input->post('id_mbd');
@@ -305,6 +357,8 @@ class Employees extends MY_Controller {
             echo "ID User tidak ditemukan!";
             return;
         }
+
+		
 
         // Update data ke database
         $this->load->model('Employees_model');
@@ -318,7 +372,35 @@ class Employees extends MY_Controller {
         }
     }
 
-  public function emp_request_list() {
+	//load datatables list batch saltab release untuk download
+	public function get_list_mbd_report()
+	{
+	// POST data
+	$postData = $this->input->post();
+	// Get data
+	$data = $this->Employees_model->get_list_mbd_report($postData);
+	echo json_encode($data);
+	}
+
+	public function get_toko_by_user()
+	{
+		$postData = $this->input->post();
+
+		// get data 
+		$data = $this->Employees_model->get_toko_by_user($postData['employee_id']);
+
+		echo json_encode($data);
+	}
+
+	public function get_tanggal_mbd_report()
+	{
+		$postData = $this->input->post();
+		//get data
+		$data = $this->Employees_model->get_tanggal_mbd_report($postData['employee_id']);
+		echo json_decode($data);
+	}
+
+  	public function emp_request_list() {
 
 			$data['title'] = $this->Xin_model->site_title();
 			$session = $this->session->userdata('username');

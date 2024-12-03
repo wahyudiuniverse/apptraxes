@@ -23,23 +23,18 @@
             
             echo form_input($data);
             ?>
+
           <div class="form-row">
-
-
             <div class="col-md mb-3">
-
             <label class="form-label">Employee</label>
               <select class="form-control" name="emp_id" id="emp_id" data-plugin="select_hrm" data-placeholder="<?php echo $this->lang->line('left_projects');?>">
                   <option value="0">--</option>
-                  
                 <?php foreach($all_emp as $emp) {?>
-
                   <option value="<?php echo $emp->user_id;?>"> [ <?php echo $emp->employee_id;?> ] - <?php echo $emp->fullname;?></option>
                 <?php } ?>
               </select>
             </div>
-
-
+            
           <div class="col-md mb-3" id="outlet_ajax">
             <label class="form-label">Toko</label>
             <select class="form-control" name="outlet_id" id="outlet_id" data-plugin="select_hrm" data-placeholder="Sub Project">
@@ -113,3 +108,5 @@
     </div>
   </div>
 </div>
+
+

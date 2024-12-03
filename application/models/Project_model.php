@@ -276,6 +276,17 @@ GROUP BY pros.project_id");
 		return $query->result();
 	}
 
+	public function get_project_mbd_report($empID)
+	{
+		$query = $this->db->query("SELECT DISTINCT a.`project_id`, b.title   FROM `xin_user_mobile` a 
+		LEFT JOIN xin_projects b ON  b.project_id = a.project_id");
+
+		// $query = $this->db->query("SELECT DISTINCT a.`project_id` , b.employee_id FROM `xin_user_mobile` a 
+		// LEFT JOIN xin_projects b ON  b.employee_id = a.employee_id
+		// WHERE `a.project_id` = '$id' ");
+		return $query->result();
+	}
+
 
 	public function get_sub_project_filter($project_id)
 	{

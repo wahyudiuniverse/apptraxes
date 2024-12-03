@@ -494,13 +494,66 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
     }
     ?>
 
+
+    <!-- display mbd -->
+<?php
+  if (in_array('110', $role_resources_ids) || in_array('112', $role_resources_ids)) {
+  ?>
+    <li class="<?php if (!empty($arr_mod['reports_open'])) echo $arr_mod['reports_open']; ?> sidenav-item">
+      <a href="#" class="sidenav-link sidenav-toggle">
+        <i class="sidenav-icon ion ion-logo-buffer"></i>
+        <div>MBD Display</div>
+      </a>
+ 
+      <ul class="sidenav-menu">
+        <?php
+        if (in_array('111', $role_resources_ids)) {
+        ?>
+          <li class="sidenav-item <?php if (!empty($arr_mod['remployees_active'])) echo $arr_mod['remployees_active']; ?>">
+            <a class="sidenav-link" href="<?php echo site_url('admin/reports/employee_mbd_report/'); ?>"> MBD Report
+            </a>
+          </li>
+        <?php
+        }
+        ?>  
+
+        <?php
+        if (in_array('131', $role_resources_ids)) {
+        ?>
+          <li class="sidenav-item <?php if (!empty($arr_mod['sellout_active'])) echo $arr_mod['sellout_active']; ?>">
+            <a class="sidenav-link" href="<?php echo site_url('admin/reports/employee_mbd_admin/'); ?>"> MBD Admin
+            </a>
+          </li>
+        <?php
+        }
+        ?>
+
+<!-- <?php
+        if (in_array('131', $role_resources_ids)) {
+        ?>
+          <li class="sidenav-item <?php if (!empty($arr_mod['sellout_active'])) echo $arr_mod['sellout_active']; ?>">
+            <a class="sidenav-link" href="<?php echo site_url('admin/reports/employee_display_mbd/'); ?>"> Report MBD
+            </a>
+          </li>
+        <?php
+        }
+        ?> -->
+
+      </ul>
+    </li>
+  <?php
+  }
+  ?>
+
+
   <!-- mobile report -->
   <?php
   if (in_array('11', $role_resources_ids) 
     || in_array('121', $role_resources_ids)
     || in_array('131', $role_resources_ids)
     || in_array('151', $role_resources_ids)
-    || in_array('171', $role_resources_ids) 
+    || in_array('161', $role_resources_ids) 
+    || in_array('171', $role_resources_ids)
     || in_array('105', $role_resources_ids) ) {
   ?>
     <li class="<?php if (!empty($arr_mod['reports_open'])) echo $arr_mod['reports_open']; ?> sidenav-item">
@@ -522,7 +575,7 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
         ?>
 
         <?php
-        if (in_array('131', $role_resources_ids)) {
+        if (in_array('161', $role_resources_ids)) {
         ?>
           <li class="sidenav-item <?php if (!empty($arr_mod['sellout_active'])) echo $arr_mod['sellout_active']; ?>">
             <a class="sidenav-link" href="<?php echo site_url('admin/reports/employee_sellout/'); ?>"> Report Sell-Out
@@ -567,7 +620,7 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
         }
         ?>
 
-        <?php
+        <!-- <?php
         if (in_array('171', $role_resources_ids)) {
         ?>
           <li class="sidenav-item <?php if (!empty($arr_mod['remployees_active'])) echo $arr_mod['remployees_active']; ?>">
@@ -576,7 +629,7 @@ if ($user_info[0]->profile_picture != '' && $user_info[0]->profile_picture != 'n
           </li>
         <?php
         }
-        ?>
+        ?> -->
 
         <?php
         if (in_array('105', $role_resources_ids)) {

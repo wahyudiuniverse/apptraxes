@@ -51,6 +51,7 @@ $session = $this->session->userdata('username');
       <div class="card-header with-elements"> 
       
     </div>
+
       <div class="card-body">
       <?php $attributes = array('name' => 'add_designation', 'id' => 'xin-form', 'autocomplete' => 'off');?>
       <?php $hidden = array('user_id' => $session['user_id']);?>
@@ -177,7 +178,7 @@ $session = $this->session->userdata('username');
 
           // Add options
           $.each(data_result, function(index, data) {
-            html_jabatan = html_jabatan + '<option value="' + data['employee_id'] + '" >' + data['first_name'] + '</option>';
+            html_jabatan = html_jabatan + '<option value="' + data['employee_id'] + '" >' + data['fullname'] + '</option>';
           });
 
           //write element
@@ -402,7 +403,7 @@ $session = $this->session->userdata('username');
           list_toko_detail = list_toko_detail + '</tbody></table>';
 
           //write element
-          $('#list_toko_detail').html(list_toko_detail);s
+          $('#list_toko_detail').html(list_toko_detail);
 
           //load select2 ke element dropdown jabatan
           $('[data-plugin="select_employee"]').select2({
@@ -411,7 +412,6 @@ $session = $this->session->userdata('username');
           });
         }
       });
-
   }
 </script>
 

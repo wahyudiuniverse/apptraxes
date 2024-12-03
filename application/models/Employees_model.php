@@ -12,18 +12,71 @@ class Employees_model extends CI_Model {
  	// get all employes
 	public function get_employees() {
 
-		$sql = 'SELECT * FROM xin_employees WHERE employee_id not IN (1)';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE employee_id not IN (1)';
 		// $binds = array(1,$cid);
 		$query = $this->db->query($sql);
 	    return $query;
 	}
 
 
+	public function get_project_0_mbd_report($postData)
+	{
+		$this->db->select('*');
+		$this->db->from('xin_user_mobile');
+		$this->db->where('project_id', $postData['project_id']);
+
+		$query = $this->db->get()->result_array();
+
+		// $query = $this->db->query("SELECT DISTINCT a.`project_id` , b.employee_id FROM `xin_user_mobile` a 
+		// LEFT JOIN xin_projects b ON  b.employee_id = a.employee_id
+		// WHERE `a.project_id` = '$id' ");
+
+  	  return $query;	
+	}
+
+
+	public function get_user_1_mbd_report($postData)
+	{
+
+		$query = $this->db->query("SELECT a.secid,a.customer_id,a.display_date, a.display_foto, a.status_display, a.verify_status, a.verify_by, a.verify_on, a.employee_id  FROM `xin_display_mbd` a 
+		LEFT JOIN xin_customer b ON  b.customer_id = a.customer_id
+		WHERE a.customer_id = '$id' 
+		ORDER BY a.secid DESC");
+
+  	  	return $query->result_array();
+
+
+		// $this->db->select('*');
+		// $this->db->from('xin_display_mbd');
+		// $this->db->where('user_id', $postData['user_id']);
+
+		// $query = $this->db->get()->result_array();
+
+		// // $query = $this->db->query("SELECT DISTINCT a.`project_id` , b.employee_id FROM `xin_user_mobile` a 
+		// // LEFT JOIN xin_projects b ON  b.employee_id = a.employee_id
+		// // WHERE `a.project_id` = '$id' ");
+
+  	  	// return $query;	
+	}
+
+	// //ambil data jabatan berdasarkan sub project untuk Json
+	// public function get_user_1_mbd_report($postData)
+	// {
+	// 	$this->db->select('*');
+	// 	$this->db->from('xin_display_mbd');
+	// 	$this->db->where('', $postData['project_id']);
+
+	// 	$query = $this->db->get()->result_array();
+
+	// 	return $query;
+	// }
+
+
 	//ambil data jabatan berdasarkan sub project untuk Json
 	public function get_employee_by_project($postData)
 	{
 		$this->db->select('*');
-		$this->db->from('xin_employees');
+		$this->db->from('xin_user_mobile');
 		$this->db->where('project_id', $postData['project_id']);
 
 		$query = $this->db->get()->result_array();
@@ -40,7 +93,6 @@ class Employees_model extends CI_Model {
   	  return $query->result_array();	
 	}
 
-
 	public function get_employee_by_toko_detail($id)
 	{
 		$query = $this->db->query("SELECT a.secid,a.customer_id,a.display_date, a.display_foto, a.status_display, a.verify_status, a.verify_by, a.verify_on, a.employee_id  FROM `xin_display_mbd` a 
@@ -49,6 +101,24 @@ class Employees_model extends CI_Model {
 		ORDER BY a.secid DESC");
 
   	  return $query->result_array();
+	}
+
+	public function get_employee_by_toko_mbd_report($id)
+	{
+		$query = $this->db->query("SELECT a.secid,a.customer_id,a.display_date, a.display_foto, a.status_display, a.verify_status, a.verify_by, a.verify_on, a.employee_id  FROM `xin_display_mbd` a 
+		LEFT JOIN xin_customer b ON  b.customer_id = a.customer_id
+		WHERE a.employee_id = '$id' 
+		ORDER BY a.secid DESC");
+
+  	  return $query->result_array();
+	}
+
+	public function get_tanggal_mbd_report() {
+		$query = $this->db->query("SELECT a.secid,a.customer_id,a.display_date, a.display_foto, a.status_display, a.verify_status, a.verify_by, a.verify_on, a.employee_id  FROM `xin_display_mbd` a 
+		LEFT JOIN xin_customer b ON  b.customer_id = a.customer_id
+		WHERE a.customer_id = '$id' 
+        AND DATE_FORMAT(display_date, '%Y-%m-%d')
+        BETWEEN '2024-10-19' AND '2024-11-19' ");
 	}
 
 	public function get_employee_by_toko_detail_mbd($id)
@@ -61,7 +131,7 @@ class Employees_model extends CI_Model {
 	public function get_employee_by_toko_detail_mbd_validasi($id)
 	{
 		$query = $this->db->query("SELECT secid,customer_id,display_date, display_foto, status_display, verify_status, verify_by, verify_on  FROM `xin_display_mbd` WHERE secid = '$id' ");
-
+ 
   	  return $query->row_array();
 	}
 
@@ -91,7 +161,7 @@ class Employees_model extends CI_Model {
 
 		$sql = 'SELECT emp.user_id, emp.employee_id, emp.ktp_no, emp.first_name, emp.project_id, pro.title, emp.last_login_date,
 				emp.designation_id, pos.designation_name, emp.penempatan, emp.contact_no, emp.date_of_birth, emp.user_role_id
-				FROM xin_employees emp
+				FROM xin_user_mobile emp
 				LEFT JOIN xin_projects pro ON pro.project_id = emp.project_id
 				LEFT JOIN xin_designations pos ON pos.designation_id = emp.designation_id
 				WHERE emp.employee_id not IN (1)';
@@ -101,13 +171,391 @@ class Employees_model extends CI_Model {
 	}
 
 
+	public function get_toko_by_user($id)
+	{
+		$query = $this->db->query("SELECT distinct a.customer_id,a.employee_id  FROM `xin_display_mbd` a 
+		WHERE a.employee_id = '$id' 
+		ORDER BY a.secid DESC");
+
+		// $query = $this->db->query("SELECT distinct a.customer_id,b.customer_name,a.employee_id  FROM `xin_display_mbd` a 
+		// LEFT JOIN xin_customer b ON  b.customer_id = a.customer_id
+		// WHERE a.employee_id = '$id' 
+		// ORDER BY a.secid DESC");
+
+  	  return $query->result_array();
+	}
+
+	// get data table List MBD Report
+	public function get_datatable_mbd_report() {
+		$query = $this->db->query("SELECT secid,customer_id,display_date, display_foto, status_display, verify_status, verify_by, verify_on, project_id  FROM `xin_display_mbd` WHERE secid = '$id' ");
+
+  	  	return $query->row_array();
+	}
+
+
+	//ambil nama karyawan
+	function get_nama_karyawan_by_nip($nip)
+	{
+		if ($nip == null) {
+			return "";
+		} else if ($nip == 0) {
+			return "";
+		} else {
+			$this->db->select('fullname');
+			$this->db->from('xin_user_mobile');
+			$this->db->where('employee_id', $nip);
+
+			$query = $this->db->get()->row_array();
+
+			if (empty($query)) {
+				return "";
+			} else {
+				return $query['fullname'];
+			}
+			//return $query['title'];
+		}
+	}
+
+	//ambil jabatan karyawan
+	function get_jabatan_by_nip($nip)
+	{
+		if ($nip == null) {
+			return "";
+		} else if ($nip == 0) {
+			return "";
+		} else {
+			$this->db->select('jabatan');
+			$this->db->from('xin_user_mobile');
+			$this->db->where('employee_id', $nip);
+
+			$query = $this->db->get()->row_array();
+
+			if (empty($query)) {
+				return "";
+			} else {
+				return $query['jabatan'];
+			}
+			//return $query['title'];
+		}
+	}
+
+	//ambil jabatan karyawan
+	function get_customername_by_customerid($nip)
+	{
+		if ($nip == null) {
+			return "";
+		} else if ($nip == 0) {
+			return "";
+		} else {
+			$this->db->select('customer_name');
+			$this->db->from('xin_customer');
+			$this->db->where('customer_id', $nip);
+
+			$query = $this->db->get()->row_array();
+
+			if (empty($query)) {
+				return "";
+			} else {
+				return $query['customer_name'];
+			}
+			//return $query['title'];
+		}
+	}
+
+	//ambil jabatan karyawan
+	function get_area_by_employeeid($nip)
+	{
+		if ($nip == null) {
+			return "";
+		} else if ($nip == 0) {
+			return "";
+		} else {
+			$this->db->select('penempatan');
+			$this->db->from('xin_user_mobile');
+			$this->db->where('employee_id', $nip);
+
+			$query = $this->db->get()->row_array();
+
+			if (empty($query)) {
+				return "";
+			} else {
+				return $query['penempatan'];
+			}
+			//return $query['title'];
+		}
+	}
+
+	//ambil jabatan karyawan
+	function get_title_by_project($nip)
+	{
+		if ($nip == null) {
+			return "";
+		} else if ($nip == 0) {
+			return "";
+		} else {
+			$this->db->select('title');
+			$this->db->from('xin_projects');
+			$this->db->where('project_id', $nip);
+
+			$query = $this->db->get()->row_array();
+
+			if (empty($query)) {
+				return "";
+			} else {
+				return $query['title'];
+			}
+			//return $query['title'];
+		}
+	}
+
+
+	// saltab_datatable_List_MBD_Report
+	function get_list_mbd_report($postData = null)
+	{
+		$role_resources_ids = $this->Xin_model->user_role_resource();
+		$response = array();
+
+		## Read value
+		$draw = $postData['draw'];
+		$start = $postData['start'];
+		$rowperpage = $postData['length']; // Rows display per page
+		$columnIndex = $postData['order'][0]['column']; // Column index
+		$columnName = $postData['columns'][$columnIndex]['data']; // Column name
+		$columnSortOrder = $postData['order'][0]['dir']; // asc or desc
+		$searchValue = $postData['search']['value']; // Search value
+
+		//variabel filter (diambil dari post ajax di view)
+		$project_id = $postData['project_id'];
+		$employee_id = $postData['employee_id'];
+		$toko_id = $postData['toko_id'];
+		$start_date = $postData['start_date'];
+		$end_date = $postData['end_date'];
+
+		## Search 
+		$searchQuery = "";
+		if ($searchValue != '') {
+			$searchQuery = " (project_id like '%" . $searchValue .  "%' or customer_id like '%" . $searchValue . "%') ";
+		}
+
+		## Filter
+		$filterProject = "";
+		if (($project_id != null) && ($project_id != "") && ($project_id != '0')) {
+			$filterProject = "(
+				project_id = " . $project_id . "
+			)";
+		} else {
+			$filterProject = "";
+		}
+		$filterEmployee = "";
+		if (($employee_id != null) && ($employee_id != "") && ($employee_id != '0')) {
+			$filterEmployee = "(
+				employee_id = '" . $employee_id . "'
+			)";
+		} else {
+			$filterEmployee = "";
+		}
+		$filterToko = "";
+		if (($toko_id != null) && ($toko_id != "") && ($toko_id != '0')) {
+			$filterToko = "(
+				customer_id = '" . $toko_id . "'
+			)";
+		} else {
+			$filterToko = "";
+		}
+		$filterStartDate = "";
+		if (($start_date != null) && ($start_date != "") && ($start_date != '0')) {
+			$filterStartDate = "(
+				display_date >= '" . $start_date . "'
+			)";
+		} else {
+			$filterStartDate = "";
+		}
+		$filterEndDate = "";
+		if (($end_date != null) && ($end_date != "") && ($end_date != '0')) {
+			$filterEndDate = "(
+				display_date <= '" . $end_date . "'
+			)";
+		} else {
+			$filterEndDate = "";
+		}
+		## Kondisi Default 
+		// $kondisiDefaultQuery = "project_id in (SELECT project_id FROM xin_projects_akses WHERE nip = " . $session_id . ")";
+		
+		## Total number of records without filtering
+		$this->db->select('count(*) as allcount');
+		if ($filterProject != '') {
+			$this->db->where($filterProject);
+		}
+		if ($filterEmployee != '') {
+			$this->db->where($filterEmployee);
+		}
+		if ($filterToko != '') {
+			$this->db->where($filterToko);
+		}
+		if ($filterStartDate != '') {
+			$this->db->where($filterStartDate);
+		}
+		if ($filterEndDate != '') {
+			$this->db->where($filterEndDate);
+		}
+		// $this->db->where($kondisiDefaultQuery);
+		$records = $this->db->get('xin_display_mbd')->result();
+		$totalRecords = $records[0]->allcount;
+		#Debugging variable
+		// $tes_query = $this->db->last_query();
+		//print_r($tes_query);
+
+		## Total number of record with filtering
+		$this->db->select('count(*) as allcount');
+		// $this->db->where($kondisiDefaultQuery);
+		if ($searchQuery != '') {
+			$this->db->where($searchQuery);
+		}
+		if ($filterProject != '') {
+			$this->db->where($filterProject);
+		}
+		if ($filterEmployee != '') {
+			$this->db->where($filterEmployee);
+		}
+		if ($filterToko != '') {
+			$this->db->where($filterToko);
+		}
+		if ($filterStartDate != '') {
+			$this->db->where($filterStartDate);
+		}
+		if ($filterEndDate != '') {
+			$this->db->where($filterEndDate);
+		}
+		$records = $this->db->get('xin_display_mbd')->result();
+		$totalRecordwithFilter = $records[0]->allcount;
+
+		## Fetch records
+		$this->db->select('*');
+		// $this->db->where($kondisiDefaultQuery);
+		if ($searchQuery != '') {
+			$this->db->where($searchQuery);
+		}
+		if ($filterProject != '') {
+			$this->db->where($filterProject);
+		}
+		if ($filterEmployee != '') {
+			$this->db->where($filterEmployee);
+		}
+		if ($filterToko != '') {
+			$this->db->where($filterToko);
+		}
+		if ($filterStartDate != '') {
+			$this->db->where($filterStartDate);
+		}
+		if ($filterEndDate != '') {
+			$this->db->where($filterEndDate);
+		}
+		$this->db->order_by($columnName, $columnSortOrder);
+		$this->db->limit($rowperpage, $start);
+		$records = $this->db->get('xin_display_mbd')->result();
+
+		$data = array();
+		foreach ($records as $record) {
+			// $nama_download_bpjs = "";
+			// if (empty($record->down_bpjs_by) || ($record->down_bpjs_by == "")) {
+			// 	$nama_download_bpjs = "";
+			// } else {
+			// 	$nama_download_bpjs = "<BR> <span style='color:#3F72D5;'>" . $this->Employees_model->get_nama_karyawan_by_nip($record->down_bpjs_by) . ' [' . $this->Xin_model->tgl_indo($record->down_bpjs_on) . ']' . "</span>";
+			// }
+
+			// $periode_salary = "";
+			// if (empty($record->periode_salary) || ($record->periode_salary == "")) {
+			// 	$periode_salary = "--";
+			// } else {
+			// 	$periode_salary = $this->Xin_model->tgl_indo($record->periode_salary) . $nama_download_bpjs;
+			// }
+			// if (empty($record->eslip_release) || ($record->eslip_release == "")) {
+			// 	$eslip_release = "";
+			// } else {
+			// 	$eslip_release = "<p>&#x2705;</p>";
+			// }
+			// $text_periode_from = "";
+			// $text_periode_to = "";
+			// $text_periode = "";
+			// if (empty($record->periode_cutoff_from) || ($record->periode_cutoff_from == "")) {
+			// 	$text_periode_from = "";
+			// } else {
+			// 	$text_periode_from = $this->Xin_model->tgl_indo($record->periode_cutoff_from);
+			// }
+			// if (empty($record->periode_cutoff_to) || ($record->periode_cutoff_to == "")) {
+			// 	$text_periode_to = "";
+			// } else {
+			// 	$text_periode_to = $this->Xin_model->tgl_indo($record->periode_cutoff_to);
+			// }
+			// if (($text_periode_from == "") && ($text_periode_to == "")) {
+			// 	$text_periode = "";
+			// } else {
+			// 	$text_periode = $text_periode_from . " s/d " . $text_periode_to;
+			// }
+			// cek apakah sudah release eslip
+			$release_eslip = "";
+			if (empty($record->status_display) || ($record->status_display == "") || ($record->status_display == "0")) {
+				$release_eslip = "<span style='color:#FF0000;'>Belum Verifikasi</span>";
+			} else {
+				$release_eslip = "<span style='color:#0000FF;'>Sudah Verifikasi</span>";
+			}
+			// $addendum_id = $this->secure->encrypt_url($record->id);
+			// $addendum_id_encrypt = strtr($addendum_id, array('+' => '.', '=' => '-', '/' => '~'));
+			// $view = '<button id="tesbutton" type="button" onclick="lihatBatchSaltabRelease(' . $record->id . ')" class="btn btn-block btn-sm btn-outline-twitter" >VIEW</button>';
+			// $download_nip_kosong = '<button type="button" onclick="downloadBatchSaltabReleaseNIPKosong(' . $record->id . ')" class=" btn-block btn-sm btn-outline-success" ><i class="fa fa-download"></i> NIP Kosong</button>';
+			// $download_raw = '<button type="button" onclick="downloadBatchSaltabRelease(' . $record->id . ')" class=" btn-block btn-sm btn-outline-success" ><i class="fa fa-download"></i> Raw Data</button>';
+			// $download_BPJS = '<button type="button" onclick="downloadBatchSaltabReleaseBPJS(' . $record->id . ')" class="btn btn-block btn-sm btn-outline-success" ><i class="fa fa-download"></i> Data BPJS</button>';
+			// $download_Payroll = '<button type="button" onclick="downloadBatchSaltabReleasePayroll(' . $record->id . ')" class="btn btn-block btn-sm btn-outline-success" ><i class="fa fa-download"></i> Data Payroll</button>';
+			// $delete = '<button type="button" onclick="deleteBatchSaltabRelease(' . $record->id . ')" class="btn btn-block btn-sm btn-outline-danger" >DELETE</button>';
+			// $button_download = '<div class="btn-group mt-2">
+      		// 	<button type="button" class="btn btn-sm btn-outline-success dropdown-toggle" data-toggle="dropdown">
+      		// 		DOWNLOAD <span class="caret"></span></button>
+      		// 		<ul class="dropdown-menu" role="menu" style="width: 100px;background-color:#faf7f0;">
+			// 		<span style="color:#3F72D5;">DOWNLOAD OPTION:</span>
+        	// 			<li class="mb-1">' . $download_nip_kosong . '</li>
+        	// 			<li class="mb-1">' . $download_raw . '</li>
+			// 			<li class="mb-1">' . $download_BPJS . '</li>
+			// 			<li class="mb-1">' . $download_Payroll . '</li>
+      		// 		</ul>
+    		// </div>';
+			// $teslinkview = 'type="button" onclick="lihatAddendum(' . $addendum_id_encrypt . ')" class="btn btn-xs btn-outline-twitter" >VIEW</button>';
+			$data[] = array(
+				"secid" => $record->secid, 
+				"display_date" => $record->display_date,
+				"title" => $this->get_title_by_project($record->project_id),
+				"employee_id" => $record->employee_id,
+				"nama_karyawan" => $this->get_nama_karyawan_by_nip($record->employee_id),
+				"jabatan" => $this->get_jabatan_by_nip($record->employee_id),
+				"id_toko" => $record->customer_id,
+				"nama_toko" => $this->get_customername_by_customerid($record->customer_id),
+				"area_penempatan" => $this->get_area_by_employeeid($record->employee_id),
+				// "foto" => "<img src='" . base_url() . $record->display_foto . "'>",
+				"foto" => "<img width='50px' heigth='50px' src='" . "https://api.traxes.id/" . $record->display_foto . "'>",
+				// "foto <img src="base_url() . $display_foto">"
+				"status_verfikasi" => $release_eslip,	
+				// "status_verfikasi" => "<span style='color:#3F72D5" . $record->status_display . "'>",
+			);	
+		}
+		## Response
+		$response = array(
+			"draw" => intval($draw),
+			"iTotalRecords" => $totalRecords,
+			"iTotalDisplayRecords" => $totalRecordwithFilter,
+			"aaData" => $data
+		);
+		//print_r($this->db->last_query());
+		//die;
+		return $response;
+	}
+
 	public function get_employees_all() {
 
 		$sql = 'SELECT emp.user_id, emp.employee_id, emp.ktp_no, emp.first_name, emp.project_id, pro.title, emp.last_login_date,
 				emp.designation_id, pos.designation_name, emp.penempatan, emp.contact_no, emp.date_of_birth, emp.user_role_id
-				FROM xin_employees emp
+				FROM xin_user_mobile emp
 				LEFT JOIN xin_projects pro ON pro.project_id = emp.project_id
-				LEFT JOIN xin_designations pos ON pos.designation_id = emp.designation_id
+				LEFT JOIN xin_designations pos ON pos.designation_id = emp.
+				designation_id
 				WHERE emp.employee_id not IN (1)';
 		// $binds = array(1,$cid);
 		$query = $this->db->query($sql);
@@ -118,7 +566,7 @@ class Employees_model extends CI_Model {
 
 		$sql = "SELECT emp.user_id, emp.employee_id, emp.ktp_no, emp.first_name, emp.project_id, pro.title,
 				emp.designation_id, pos.designation_name, emp.penempatan, emp.contact_no, emp.date_of_birth, emp.user_role_id, emp.last_login_date
-				FROM xin_employees emp
+				FROM xin_user_mobile emp
 				LEFT JOIN xin_projects pro ON pro.project_id = emp.project_id
 				LEFT JOIN xin_designations pos ON pos.designation_id = emp.designation_id
 				WHERE emp.employee_id not IN (1)
@@ -133,7 +581,7 @@ class Employees_model extends CI_Model {
 
 		$sql = "SELECT emp.user_id, emp.employee_id, emp.ktp_no, emp.first_name, emp.project_id, pro.title,
 				emp.designation_id, pos.designation_name, emp.penempatan, emp.contact_no, emp.date_of_birth, emp.user_role_id, emp.last_login_date
-				FROM xin_employees emp
+				FROM xin_user_mobile emp
 				LEFT JOIN xin_projects pro ON pro.project_id = emp.project_id
 				LEFT JOIN xin_designations pos ON pos.designation_id = emp.designation_id
 				WHERE emp.employee_id not IN (1)";
@@ -145,7 +593,7 @@ class Employees_model extends CI_Model {
 	public function get_all_employees_all()
 	{
 	  $query = $this->db->query("SELECT user_id, employee_id, CONCAT( employee_id, '-', first_name) AS fullname, date_of_leaving,month(date_of_leaving) bln_skrng
-		FROM xin_employees 
+		FROM xin_user_mobile 
 		WHERE is_active = 1 
 		AND  status_resign = 1
 		AND employee_id not IN (SELECT 1 AS nip FROM DUAL)
@@ -158,7 +606,7 @@ class Employees_model extends CI_Model {
 	public function get_all_employees_byproject($id)
 	{
 	  $query = $this->db->query("SELECT user_id, employee_id, CONCAT( employee_id, '-', first_name) AS fullname, project_id, date_of_leaving,month(date_of_leaving) bln_skrng
-		FROM xin_employees 
+		FROM xin_user_mobile 
 		WHERE is_active = 1 
 		AND status_resign = 1
 		AND employee_id not IN (SELECT 1 AS nip FROM DUAL
@@ -173,7 +621,7 @@ class Employees_model extends CI_Model {
 	public function get_empdeactive_byproject($id)
 	{
 	  $query = $this->db->query("SELECT user_id, employee_id, CONCAT( employee_id, '-', first_name) AS fullname, project_id, date_of_leaving,month(date_of_leaving) bln_skrng
-		FROM xin_employees 
+		FROM xin_user_mobile 
 		WHERE is_active = 1 
 		AND status_resign in (2,3,4,5)
 		AND project_id = '$id'
@@ -201,7 +649,7 @@ class Employees_model extends CI_Model {
 	public function get_all_employees_project()
 	{
 	  $query = $this->db->query("SELECT user_id, employee_id, CONCAT( employee_id, '-', first_name) AS fullname, date_of_leaving,month(date_of_leaving) bln_skrng
-		FROM xin_employees 
+		FROM xin_user_mobile 
 		WHERE is_active = 1 
 		AND  status_resign = 1
 		AND project_id NOT IN (22)
@@ -382,7 +830,7 @@ class Employees_model extends CI_Model {
 	public function get_monitoring_rsign() {
 
 		$sql = 'SELECT *
-		FROM xin_employees
+		FROM xin_user_mobile
 		WHERE request_resign_by is not null
 		ORDER BY request_resign_date DESC;';
 		// $binds = array(1,$cid);
@@ -394,7 +842,7 @@ class Employees_model extends CI_Model {
 	public function get_monitoring_rsign_cancel() {
 
 		$sql = 'SELECT *
-		FROM xin_employees
+		FROM xin_user_mobile
 		WHERE request_resign_by NOT IN ("NULL","0")	
 		-- AND approve_resignnae NOT IN ("NULL","0")
 		-- AND approve_resignnom NOT IN ("NULL","0")
@@ -410,7 +858,7 @@ class Employees_model extends CI_Model {
 	public function get_monitoring_rsign_nae() {
 
 		$sql = 'SELECT *
-		FROM xin_employees
+		FROM xin_user_mobile
 		WHERE request_resign_by NOT IN ("NULL","0")		
 		AND approve_resignnae IS NULL
 		AND approve_resignnom IS NULL
@@ -425,7 +873,7 @@ class Employees_model extends CI_Model {
 	public function get_monitoring_rsign_nom() {
 
 		$sql = 'SELECT *
-		FROM xin_employees
+		FROM xin_user_mobile
 		WHERE request_resign_by NOT IN ("NULL","0")
 		AND approve_resignnae NOT IN ("NULL","0")
 		AND approve_resignnom IS NULL
@@ -442,7 +890,7 @@ class Employees_model extends CI_Model {
 	public function get_monitoring_rsign_ho() {
 
 		$sql = 'SELECT *
-		FROM xin_employees
+		FROM xin_user_mobile
 		WHERE request_resign_by NOT IN ("NULL","0")
 		AND approve_resignnae NOT IN ("NULL","0")
 		AND approve_resignnom IS NULL
@@ -457,7 +905,7 @@ class Employees_model extends CI_Model {
 	public function get_monitoring_rsign_hrd() {
 
 		$sql = 'SELECT *
-		FROM xin_employees
+		FROM xin_user_mobile
 		WHERE request_resign_by NOT IN ("NULL","0")
 		AND approve_resignnae NOT IN ("NULL","0")
 		AND approve_resignnom NOT IN ("NULL","0")
@@ -473,7 +921,7 @@ class Employees_model extends CI_Model {
 	public function get_monitoring_rsign_history() {
 
 		$sql = 'SELECT *
-		FROM xin_employees
+		FROM xin_user_mobile
 		WHERE request_resign_by NOT IN ("NULL","0")
 		AND approve_resignnae NOT IN ("NULL","0")
 		AND approve_resignnom NOT IN ("NULL","0")
@@ -528,7 +976,7 @@ class Employees_model extends CI_Model {
  	// get all employes
 	public function get_employees_master() {
 
-		$sql = 'SELECT * FROM xin_employees WHERE e_status = 1';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE e_status = 1';
 		// $binds = array(1,$cid);
 		$query = $this->db->query($sql);
 	    return $query;
@@ -538,7 +986,7 @@ class Employees_model extends CI_Model {
 	// get single employee
 	public function read_employee_info($id) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE user_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE user_id = ?';
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		
@@ -553,7 +1001,7 @@ class Employees_model extends CI_Model {
 	public function checknik($nik) {
 	
 		$sql = 'SELECT max(date_of_joining), emp.employee_id, emp.first_name, emp.designation_id, pos.designation_name, emp.project_id,pro.priority, pro.title, emp.company_id,emp.ktp_no, emp.status_resign
-FROM xin_employees emp
+FROM xin_user_mobile emp
 LEFT JOIN xin_designations pos ON pos.designation_id = emp.designation_id
 LEFT JOIN xin_projects pro ON pro.project_id = emp.project_id
 WHERE ktp_no = ?';
@@ -584,7 +1032,7 @@ WHERE ktp_no = ?';
 	// get single employee by NIK KTP
 	public function read_employee_info_by_nik_ktp($id) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE ktp_no = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE ktp_no = ?';
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		
@@ -613,7 +1061,7 @@ WHERE ktp_no = ?';
 	// get single employee request
 	public function read_employee_expired($id) {
 	
-		$sql = "SELECT * FROM xin_employees WHERE employee_id = ?";
+		$sql = "SELECT * FROM xin_user_mobile WHERE employee_id = ?";
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		
@@ -627,7 +1075,7 @@ WHERE ktp_no = ?';
 	// get single employee by NIP
 	public function read_eslip_info_by_nip_periode($id, $periode) {
 	
-		$sql = 'SELECT * FROM xin_employees_eslip WHERE nip = ? and periode = ?';
+		$sql = 'SELECT * FROM xin_user_mobile_eslip WHERE nip = ? and periode = ?';
 		$binds = array($id, $periode);
 		$query = $this->db->query($sql, $binds);
 		
@@ -641,7 +1089,7 @@ WHERE ktp_no = ?';
 	// get single employee by NIP
 	public function read_eslip_info_by_id($id) {
 	
-		$sql = 'SELECT * FROM xin_employees_eslip WHERE secid = ?';
+		$sql = 'SELECT * FROM xin_user_mobile_eslip WHERE secid = ?';
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		
@@ -655,7 +1103,7 @@ WHERE ktp_no = ?';
 	// get single employee by NIP
 	public function read_eslip_by_nip($id) {
 	
-		$sql = 'SELECT * FROM xin_employees_eslip WHERE nip = ? ORDER BY secid DESC LIMIT 6';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE employee_id = ? ORDER BY user_id DESC LIMIT 6';
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		
@@ -669,7 +1117,7 @@ WHERE ktp_no = ?';
 	// get all my team employes > not super admin
 	public function get_employees_my_team($cid) {
 		
-		$sql = 'SELECT * FROM xin_employees WHERE user_id != ? and reports_to = ?' ;
+		$sql = 'SELECT * FROM xin_user_mobile WHERE user_id != ? and reports_to = ?' ;
 		$binds = array(1,$cid);
 		$query = $this->db->query($sql, $binds);
 	    return $query;
@@ -677,7 +1125,7 @@ WHERE ktp_no = ?';
 	// get all employes > not super admin
 	public function get_employees_for_other($cid) {
 		
-		$sql = 'SELECT * FROM xin_employees WHERE user_id != ? and company_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE user_id != ? and company_id = ?';
 		$binds = array(1,$cid);
 		$query = $this->db->query($sql, $binds);
 	    return $query;
@@ -685,7 +1133,7 @@ WHERE ktp_no = ?';
 	// get all employes > not super admin
 	public function get_employees_for_location($cid) {
 		
-		$sql = 'SELECT * FROM xin_employees WHERE user_id != ? and location_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE user_id != ? and location_id = ?';
 		$binds = array(1,$cid);
 		$query = $this->db->query($sql, $binds);
 	    return $query;
@@ -695,7 +1143,7 @@ WHERE ktp_no = ?';
 	// get all employes|company>
 	public function get_company_employees_flt($cid) {
 		
-		$sql = 'SELECT * FROM xin_employees WHERE company_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE company_id = ?';
 		$binds = array($cid);
 		$query = $this->db->query($sql, $binds);
 	    return $query;
@@ -703,7 +1151,7 @@ WHERE ktp_no = ?';
 	// get all MY TEAM employes
 	public function get_my_team_employees($reports_to) {
 		
-		$sql = 'SELECT * FROM xin_employees WHERE reports_to = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE reports_to = ?';
 		$binds = array($reports_to);
 		$query = $this->db->query($sql, $binds);
 	    return $query;
@@ -712,7 +1160,7 @@ WHERE ktp_no = ?';
 		// get all employes temporary
 	public function get_employees_temp($importid) {
 		
-		$sql = 'SELECT * FROM xin_employees_temp WHERE uploadid = ?';
+		$sql = 'SELECT * FROM xin_user_mobile_temp WHERE uploadid = ?';
 		$binds = array($importid);
 		$query = $this->db->query($sql, $binds);
 	    return $query;
@@ -721,7 +1169,7 @@ WHERE ktp_no = ?';
 	// get all employes>company|location >
 	public function get_company_location_employees_flt($cid,$lid) {
 		
-		$sql = 'SELECT * FROM xin_employees WHERE company_id = ? and location_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE company_id = ? and location_id = ?';
 		$binds = array($cid,$lid);
 		$query = $this->db->query($sql, $binds);
 	    return $query;
@@ -729,7 +1177,7 @@ WHERE ktp_no = ?';
 	// get all employes>company|location|department >
 	public function get_company_location_department_employees_flt($cid,$lid,$dep_id) {
 		
-		$sql = 'SELECT * FROM xin_employees WHERE company_id = ? and location_id = ? and department_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE company_id = ? and location_id = ? and department_id = ?';
 		$binds = array($cid,$lid,$dep_id);
 		$query = $this->db->query($sql, $binds);
 	    return $query;
@@ -737,7 +1185,7 @@ WHERE ktp_no = ?';
 	// get all employes>company|location|department|designation >
 	public function get_company_location_department_designation_employees_flt($cid,$lid,$dep_id,$des_id) {
 		
-		$sql = 'SELECT * FROM xin_employees WHERE company_id = ? and location_id = ? and department_id = ? and designation_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE company_id = ? and location_id = ? and department_id = ? and designation_id = ?';
 		$binds = array($cid,$lid,$dep_id,$des_id);
 		$query = $this->db->query($sql, $binds);
 	    return $query;
@@ -745,7 +1193,7 @@ WHERE ktp_no = ?';
 	// get all employes >
 	public function get_employees_payslip() {
 		
-		$sql = 'SELECT * FROM xin_employees WHERE user_role_id != ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE user_role_id != ?';
 		$binds = array(1);
 		$query = $this->db->query($sql, $binds);
 	    return $query;
@@ -754,7 +1202,7 @@ WHERE ktp_no = ?';
 	// get employes
 	public function get_attendance_employees() {
 		
-		$sql = 'SELECT * FROM xin_employees WHERE is_active = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE is_active = ?';
 		$binds = array(1);
 		$query = $this->db->query($sql, $binds);
 		
@@ -763,7 +1211,7 @@ WHERE ktp_no = ?';
 	// get employes with location
 	public function get_attendance_location_employees($location_id) {
 		
-		$sql = 'SELECT * FROM xin_employees WHERE location_id = ? and is_active = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE location_id = ? and is_active = ?';
 		$binds = array($location_id,1);
 		$query = $this->db->query($sql, $binds);
 		
@@ -806,13 +1254,13 @@ ORDER BY jab.designation_id ASC";
 
 	// get total number of employees
 	public function get_total_employees() {
-	  $query = $this->db->get("xin_employees");
+	  $query = $this->db->get("xin_user_mobile");
 	  return $query->num_rows();
 	}
 		 
 	 public function read_employee_information($id) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE user_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE user_id = ?';
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		
@@ -826,7 +1274,7 @@ ORDER BY jab.designation_id ASC";
 
 	 public function read_employee_information_nip($nip) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE employee_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE employee_id = ?';
 		$binds = array($nip);
 		$query = $this->db->query($sql, $binds);
 		
@@ -839,7 +1287,7 @@ ORDER BY jab.designation_id ASC";
 
 	 public function read_employee_nae($id) {
 	
-		$sql = "SELECT * FROM xin_employees WHERE sub_project_id = '1' AND user_id = ?";
+		$sql = "SELECT * FROM xin_user_mobile WHERE sub_project_id = '1' AND user_id = ?";
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		
@@ -853,7 +1301,7 @@ ORDER BY jab.designation_id ASC";
 	// get single employee by NIP
 	public function read_employee_jabatan($id) {
 	
-		$sql = 'SELECT emp.employee_id, emp.first_name, emp.designation_id, pos.designation_name FROM xin_employees emp LEFT JOIN xin_designations pos ON pos.designation_id = emp.designation_id WHERE emp.employee_id = ?';
+		$sql = 'SELECT emp.employee_id, emp.first_name, emp.designation_id, pos.designation_name FROM xin_user_mobile emp LEFT JOIN xin_designations pos ON pos.designation_id = emp.designation_id WHERE emp.employee_id = ?';
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		
@@ -865,7 +1313,7 @@ ORDER BY jab.designation_id ASC";
 	}
 	 public function CheckExistNIK($id) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE employee_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE employee_id = ?';
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		
@@ -878,7 +1326,7 @@ ORDER BY jab.designation_id ASC";
 	
 	 public function CheckExistNIP_Periode($id, $periode) {
 	
-		$sql = 'SELECT * FROM xin_employees_saltab WHERE nip = ? and periode = ?';
+		$sql = 'SELECT * FROM xin_user_mobile_saltab WHERE nip = ? and periode = ?';
 		$binds = array($id,$periode);
 		$query = $this->db->query($sql, $binds);
 		
@@ -891,7 +1339,7 @@ ORDER BY jab.designation_id ASC";
 
 	public function CheckExistNIP_esaltab($id, $periode, $project) {
 	
-		$sql = 'SELECT * FROM xin_employees_saltab WHERE fullname = ? and periode = ? and project = ?';
+		$sql = 'SELECT * FROM xin_user_mobile_saltab WHERE fullname = ? and periode = ? and project = ?';
 		$binds = array($id,$periode,$project);
 		$query = $this->db->query($sql, $binds);
 		
@@ -904,7 +1352,7 @@ ORDER BY jab.designation_id ASC";
 
 	public function CheckExistNIP($id) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE employee_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE employee_id = ?';
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		
@@ -917,7 +1365,7 @@ ORDER BY jab.designation_id ASC";
 	// check employeeID
 	public function check_employee_id($id) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE employee_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE employee_id = ?';
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		return $query->num_rows();
@@ -935,7 +1383,7 @@ ORDER BY jab.designation_id ASC";
 	// check old password
 	public function check_old_password($old_password,$user_id) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE user_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE user_id = ?';
 		$binds = array($user_id);
 		$query = $this->db->query($sql, $binds);
 		//$rw_password = $query->result();
@@ -955,7 +1403,7 @@ ORDER BY jab.designation_id ASC";
 	// check username
 	public function check_employee_username($id) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE username = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE username = ?';
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		return $query->num_rows();
@@ -963,7 +1411,7 @@ ORDER BY jab.designation_id ASC";
 	// check email
 	public function check_employee_email($id) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE email = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE email = ?';
 		$binds = array($id);
 		$query = $this->db->query($sql, $binds);
 		return $query->num_rows();
@@ -971,7 +1419,7 @@ ORDER BY jab.designation_id ASC";
 	// check email
 	public function check_employee_pincode($pincode) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE pincode = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE pincode = ?';
 		$binds = array($pincode);
 		$query = $this->db->query($sql, $binds);
 		return $query->num_rows();
@@ -979,7 +1427,7 @@ ORDER BY jab.designation_id ASC";
 	
 	// Function to add record in table
 	public function add($data){
-		$this->db->insert('xin_employees', $data);
+		$this->db->insert('xin_user_mobile', $data);
 		if ($this->db->affected_rows() > 0) {
 			return $this->db->insert_id();
 		} else {
@@ -989,7 +1437,7 @@ ORDER BY jab.designation_id ASC";
 
 	// Function to add record in table
 	public function addeslip($data){
-		$this->db->insert('xin_employees_eslip', $data);
+		$this->db->insert('xin_user_mobile_eslip', $data);
 		if ($this->db->affected_rows() > 0) {
 			return $this->db->insert_id();
 		} else {
@@ -999,7 +1447,7 @@ ORDER BY jab.designation_id ASC";
 
 	// Function to add record in table
 	public function addtemp($data){
-		$this->db->insert('xin_employees_temp', $data);
+		$this->db->insert('xin_user_mobile_temp', $data);
 		if ($this->db->affected_rows() > 0) {
 			return $this->db->insert_id();
 		} else {
@@ -1033,7 +1481,7 @@ ORDER BY jab.designation_id ASC";
 	public function request_resign($data, $id){
 
 		$this->db->where('employee_id', $id);
-		if( $this->db->update('xin_employees',$data)) {
+		if( $this->db->update('xin_user_mobile',$data)) {
 			return true;
 		} else {
 			return false;
@@ -1053,14 +1501,14 @@ ORDER BY jab.designation_id ASC";
 	// Function to Delete selected record from table
 	public function delete_record($id){
 		$this->db->where('user_id', $id);
-		$this->db->delete('xin_employees');
+		$this->db->delete('xin_user_mobile');
 		
 	}
 	
 	// Function to Delete selected record from table
 	public function delete_temp_by_employeeid(){
 		$this->db->where('employee_id', 'nip');
-		$this->db->delete('xin_employees_temp');
+		$this->db->delete('xin_user_mobile_temp');
 		
 	}
 	/*  Update Employee Record */
@@ -1075,7 +1523,7 @@ ORDER BY jab.designation_id ASC";
 	// Function to update record in table
 	public function update_record($data, $id){
 		$this->db->where('user_id', $id);
-		if( $this->db->update('xin_employees',$data)) {
+		if( $this->db->update('xin_user_mobile',$data)) {
 			return true;
 		} else {
 			return false;
@@ -1085,7 +1533,7 @@ ORDER BY jab.designation_id ASC";
 	// Function to update record in table
 	public function update_record_bynip($data, $id){
 		$this->db->where('employee_id', $id);
-		if( $this->db->update('xin_employees',$data)) {
+		if( $this->db->update('xin_user_mobile',$data)) {
 			return true;
 		} else {
 			return false;
@@ -1096,7 +1544,7 @@ ORDER BY jab.designation_id ASC";
 	// Function to update record in table > basic_info
 	public function basic_info($data, $id){
 		$this->db->where('user_id', $id);
-		if( $this->db->update('xin_employees',$data)) {
+		if( $this->db->update('xin_user_mobile',$data)) {
 			return true;
 		} else {
 			return false;
@@ -1106,7 +1554,7 @@ ORDER BY jab.designation_id ASC";
 	// Function to update record in table > basic_info
 	public function update_error_temp($data, $id){
 		$this->db->where('secid', $id);
-		if( $this->db->update('xin_employees_temp',$data)) {
+		if( $this->db->update('xin_user_mobile_temp',$data)) {
 			return true;
 		} else {
 			return false;
@@ -1116,7 +1564,7 @@ ORDER BY jab.designation_id ASC";
 	// Function to update record in table > basic_info
 	public function update_error_eslip_temp($data, $id){
 		$this->db->where('secid', $id);
-		if( $this->db->update('xin_employees_eslip_temp',$data)) {
+		if( $this->db->update('xin_user_mobile_eslip_temp',$data)) {
 			return true;
 		} else {
 			return false;
@@ -1126,7 +1574,7 @@ ORDER BY jab.designation_id ASC";
 	// Function to update record in table > change_password
 	public function change_password($data, $id){
 		$this->db->where('user_id', $id);
-		if( $this->db->update('xin_employees',$data)) {
+		if( $this->db->update('xin_user_mobile',$data)) {
 			return true;
 		} else {
 			return false;
@@ -1136,7 +1584,7 @@ ORDER BY jab.designation_id ASC";
 	// Function to update record in table > social_info
 	public function social_info($data, $id){
 		$this->db->where('user_id', $id);
-		if( $this->db->update('xin_employees',$data)) {
+		if( $this->db->update('xin_user_mobile',$data)) {
 			return true;
 		} else {
 			return false;
@@ -1146,7 +1594,7 @@ ORDER BY jab.designation_id ASC";
 	// Function to update record in table > profile picture
 	public function profile_picture($data, $id){
 		$this->db->where('user_id', $id);
-		if( $this->db->update('xin_employees',$data)) {
+		if( $this->db->update('xin_user_mobile',$data)) {
 			return true;
 		} else {
 			return false;
@@ -1165,7 +1613,7 @@ ORDER BY jab.designation_id ASC";
 		// Function to update record in table
 	public function save_pkwt_expired($data, $id){
 		$this->db->where('user_id', $id);
-		if( $this->db->update('xin_employees',$data)) {
+		if( $this->db->update('xin_user_mobile',$data)) {
 			return true;
 		} else {
 			return false;
@@ -1175,7 +1623,7 @@ ORDER BY jab.designation_id ASC";
 		// Function to update record in table
 	public function update_resign_apnae($data, $id){
 		$this->db->where('user_id', $id);
-		if( $this->db->update('xin_employees',$data)) {
+		if( $this->db->update('xin_user_mobile',$data)) {
 			return true;
 		} else {
 			return false;
@@ -1185,7 +1633,7 @@ ORDER BY jab.designation_id ASC";
 		// Function to update record in table
 	public function update_resign_apnom($data, $id){
 		$this->db->where('user_id', $id);
-		if( $this->db->update('xin_employees',$data)) {
+		if( $this->db->update('xin_user_mobile',$data)) {
 			return true;
 		} else {
 			return false;
@@ -2021,19 +2469,19 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 	}
 	
 	public function record_count() {
-		$sql = 'SELECT * FROM xin_employees where user_role_id!=1';
+		$sql = 'SELECT * FROM xin_user_mobile where user_role_id!=1';
 		$query = $this->db->query($sql);
 		return $query->num_rows();
     }
 	public function record_count_myteam($reports_to) {
-		$sql = 'SELECT * FROM xin_employees where user_role_id!=1 and reports_to = '.$reports_to.'';
+		$sql = 'SELECT * FROM xin_user_mobile where user_role_id!=1 and reports_to = '.$reports_to.'';
 		$query = $this->db->query($sql);
 		return $query->num_rows();
     }
 	// read filter record
 	public function get_employee_by_department($cid) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE department_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE department_id = ?';
 		$binds = array($cid);
 		$query = $this->db->query($sql, $binds);
 		if ($query->num_rows() > 0) {
@@ -2045,7 +2493,7 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 	// read filter record
 	public function record_count_company_employees($cid) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE company_id = ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE company_id = ?';
 		$binds = array($cid);
 		$query = $this->db->query($sql, $binds);
 		return $query->num_rows();
@@ -2053,7 +2501,7 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 	// read filter record
 	public function record_count_company_location_employees($cid,$lid) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE company_id = ? and location_id= ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE company_id = ? and location_id= ?';
 		$binds = array($cid,$lid);
 		$query = $this->db->query($sql, $binds);
 		return $query->num_rows();
@@ -2061,7 +2509,7 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 	// read filter record
 	public function record_count_company_location_department_employees($cid,$lid,$dep_id) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE company_id = ? and location_id= ? and department_id= ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE company_id = ? and location_id= ? and department_id= ?';
 		$binds = array($cid,$lid,$dep_id);
 		$query = $this->db->query($sql, $binds);
 		return $query->num_rows();
@@ -2069,7 +2517,7 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 	// read filter record
 	public function record_count_company_location_department_designation_employees($cid,$lid,$dep_id,$des_id) {
 	
-		$sql = 'SELECT * FROM xin_employees WHERE company_id = ? and location_id= ? and department_id= ? and designation_id= ?';
+		$sql = 'SELECT * FROM xin_user_mobile WHERE company_id = ? and location_id= ? and department_id= ? and designation_id= ?';
 		$binds = array($cid,$lid,$dep_id,$des_id);
 		$query = $this->db->query($sql, $binds);
 		return $query->num_rows();
@@ -2083,7 +2531,7 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 		$user_info = $this->Xin_model->read_user_info($session['user_id']);
 		$this->db->where("reports_to",$session['user_id']);
 		$this->db->where("user_role_id!=1");
-        $query = $this->db->get("xin_employees");
+        $query = $this->db->get("xin_user_mobile");
 
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
@@ -2103,7 +2551,7 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 			$this->db->where("company_id",$user_info[0]->company_id);
 		}
 		$this->db->where("user_role_id!=1");
-        $query = $this->db->get("xin_employees");
+        $query = $this->db->get("xin_user_mobile");
 
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
@@ -2119,7 +2567,7 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
         $this->db->limit($limit, $start);
 		$this->db->order_by("designation_id asc");
 		$this->db->where("company_id",$cid);
-        $query = $this->db->get("xin_employees");
+        $query = $this->db->get("xin_user_mobile");
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
                 $data[] = $row;
@@ -2135,7 +2583,7 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 		$this->db->order_by("designation_id asc");
 		$this->db->where("company_id=",$cid);
 		$this->db->where("location_id=",$lid);
-        $query = $this->db->get("xin_employees");
+        $query = $this->db->get("xin_user_mobile");
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
                 $data[] = $row;
@@ -2152,7 +2600,7 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 		$this->db->where("company_id=",$cid);
 		$this->db->where("location_id=",$lid);
 		$this->db->where("department_id=",$dep_id);
-        $query = $this->db->get("xin_employees");
+        $query = $this->db->get("xin_user_mobile");
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
                 $data[] = $row;
@@ -2170,7 +2618,7 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 		$this->db->where("location_id=",$lid);
 		$this->db->where("department_id=",$dep_id);
 		$this->db->where("designation_id=",$des_id);
-        $query = $this->db->get("xin_employees");
+        $query = $this->db->get("xin_user_mobile");
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
                 $data[] = $row;
@@ -2183,11 +2631,11 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
    public function des_fetch_all_employees($limit, $start) {
        // $this->db->limit($limit, $start);
 		
-		$sql = 'SELECT * FROM xin_employees order by designation_id asc limit ?, ?';
+		$sql = 'SELECT * FROM xin_user_mobile order by designation_id asc limit ?, ?';
 		$binds = array($limit,$start);
 		$query = $this->db->query($sql, $binds);
 		
-      //  $query = $this->db->get("xin_employees");
+      //  $query = $this->db->get("xin_user_mobile");
 
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
@@ -2746,13 +3194,13 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 
 	public function ktp_exist_blacklist($ktp)
 	{
-	  $query = $this->db->query("SELECT ktp_no FROM xin_employees WHERE status_resign = '3' AND ktp_no = '$ktp';");
+	  $query = $this->db->query("SELECT ktp_no FROM xin_user_mobile WHERE status_resign = '3' AND ktp_no = '$ktp';");
   	  return $query->num_rows();
 	}
 
 	public function ktp_exist_active($ktp)
 	{
-	  $query = $this->db->query("SELECT ktp_no FROM xin_employees WHERE status_resign = '1' AND ktp_no = '$ktp';");
+	  $query = $this->db->query("SELECT ktp_no FROM xin_user_mobile WHERE status_resign = '1' AND ktp_no = '$ktp';");
   	  return $query->num_rows();
 	}
 
@@ -2780,7 +3228,7 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 	// get all my team employes > not super admin
 	public function get_all_employees_active() {
 		
-		$sql = 'SELECT user_id, employee_id, CONCAT( employee_id, " - ", first_name) AS fullname FROM xin_employees WHERE is_active = 1 AND employee_id not IN (1)';
+		$sql = 'SELECT user_id, employee_id, CONCAT( employee_id, " - ", first_name) AS fullname FROM xin_user_mobile WHERE is_active = 1 AND employee_id not IN (1)';
 		// $binds = array(1,$cid);
 		$query = $this->db->query($sql);
 	    return $query;
@@ -2789,24 +3237,24 @@ NOT IN (SELECT distinct(document_type_id) AS iddoc FROM xin_employee_documents W
 	// get all my team employes > not super admin
 	public function get_all_employees_resign() {
 		
-		$sql = 'SELECT user_id, employee_id, CONCAT( employee_id, " - ", first_name) AS fullname FROM xin_employees WHERE is_active = 1 AND  status_resign = 2 AND employee_id not IN (1)';
+		$sql = 'SELECT user_id, employee_id, CONCAT( employee_id, " - ", first_name) AS fullname FROM xin_user_mobile WHERE is_active = 1 AND  status_resign = 2 AND employee_id not IN (1)';
 		// $binds = array(1,$cid);
 		$query = $this->db->query($sql);
 	    return $query;
 	}
 
 	// public function get_maxid() {
-	// 	$sql = 'SELECT max(employee_id) AS maxid FROM xin_employees';
+	// 	$sql = 'SELECT max(employee_id) AS maxid FROM xin_user_mobile';
 	// 	$query = $this->db->query($sql);
 	//     return $query->result();
 	// }
 
 	public function get_maxid() {
-	  // $query = $this->db->query("SELECT max(employee_id) AS maxid FROM xin_employees");
+	  // $query = $this->db->query("SELECT max(employee_id) AS maxid FROM xin_user_mobile");
   	//   return $query->result();
 
   	  $maxid = 0;
-		$row = $this->db->query("SELECT max(employee_id) AS maxid FROM xin_employees")->row();
+		$row = $this->db->query("SELECT max(employee_id) AS maxid FROM xin_user_mobile")->row();
 		if ($row) {
 		    $maxid = $row->maxid; 
 		}
