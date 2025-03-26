@@ -117,3 +117,25 @@ $db['cisdb'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+$db['api_traxes_db'] = array(
+	'dsn'	=> 'mysql:host=103.175.220.103;dbname=traxesid_globaldata',
+	'hostname' => "103.175.220.103",
+	'username' => "traxesid_report_traxes",
+	'password' => "ytrewq1qtw!@#*()",
+	'database' => "traxesid_globaldata",
+	'dbdriver' => 'pdo',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);

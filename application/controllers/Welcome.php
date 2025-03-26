@@ -47,6 +47,7 @@ class Welcome extends MY_Controller {
 			$data['title'] = $this->Xin_model->site_title().' | Log in';
 			$theme = $this->Xin_model->read_theme_info(1);
 			if($theme[0]->login_page_options == 'login_page_1'):
+				// redirect('http://google.com');
 				$this->load->view('admin/auth/login-1', $data);
 			elseif($theme[0]->login_page_options == 'login_page_2'):
 				$this->load->view('admin/auth/login-2', $data);

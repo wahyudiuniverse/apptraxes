@@ -1531,6 +1531,16 @@ ORDER BY jab.designation_id ASC";
 	}
 
 	// Function to update record in table
+	public function update_record_employees($data, $id){
+		$this->db->where('user_id', $id);
+		if( $this->db->update('xin_employees',$data)) {
+			return true;
+		} else {
+			return false;
+		}		
+	}
+
+	// Function to update record in table
 	public function update_record_bynip($data, $id){
 		$this->db->where('employee_id', $id);
 		if( $this->db->update('xin_user_mobile',$data)) {

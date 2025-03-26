@@ -167,13 +167,13 @@ class Usermobile extends MY_Controller
 		if($company_id == "0" || is_null($company_id) || $company_id == "-" || $company_id == "") {
 
 			if($project_id=="0" || is_null($project_id)){
-				$usermobile = $this->Usersmobile_model->user_mobile_limit();
+				$usermobile = $this->Usersmobile_model->user_mobile_limit_newtraxes();
 			}else{
-				$usermobile = $this->Usersmobile_model->user_mobile_limit_fillter($company_id, $project_id, $subproject_id);
+				$usermobile = $this->Usersmobile_model->user_mobile_limit_fillter_newtraxes($company_id, $project_id, $subproject_id);
 			}
 
 		} else {
-			$usermobile = $this->Usersmobile_model->user_mobile_byemployee($company_id);
+			$usermobile = $this->Usersmobile_model->user_mobile_byemployee_newtraxes($company_id);
 		}
 
 		
@@ -310,7 +310,7 @@ class Usermobile extends MY_Controller
 			if(!is_null($keywords[0])){
 
     		// $read_employee = $this->Employees_model->read_employee_info_by_nik($keywords[0]);
-    		$read_usermobile = $this->Usersmobile_model->read_users_mobile_by_nik($keywords[0]);
+    		$read_usermobile = $this->Usersmobile_model->read_users_mobile_by_nik_newtraxes($keywords[0]);
 
     		//$full_name = $read_usermobile[0]->fullname;
 
@@ -390,7 +390,7 @@ class Usermobile extends MY_Controller
 			// 'device_id_one' => $this->input->post('device_id'),
 			);
 
-			$result = $this->Usersmobile_model->update_record($data,$emp);
+			$result = $this->Usersmobile_model->update_record_newtraxes($data,$emp);
 
 			if ($result == TRUE) {
 				$Return['result'] = $this->lang->line('xin_success_update_department');
@@ -409,7 +409,7 @@ class Usermobile extends MY_Controller
 		$Return = array('result'=>'', 'error'=>'', 'csrf_hash'=>'');
 		$id = $this->uri->segment(4);
 		$Return['csrf_hash'] = $this->security->get_csrf_hash();
-		$result = $this->Usersmobile_model->delete_record($id);
+		$result = $this->Usersmobile_model->delete_record_newtraxes($id);
 		if(isset($id)) {
 			$Return['result'] = $this->lang->line('xin_success_job_deleted');
 		} else {

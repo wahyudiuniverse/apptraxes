@@ -39,7 +39,7 @@ class Logout extends MY_Controller
 			'is_logged_in' => '0',
 			'last_logout_date' => date('d-m-Y H:i:s')
 		); 
-		$this->Employees_model->update_record($last_data, $session['user_id']);
+		$this->Employees_model->update_record_employees($last_data, $session['user_id']);
 				
 		// Removing session data
 		$data['title'] = 'HR Software';
